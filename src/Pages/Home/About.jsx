@@ -18,14 +18,14 @@ const About = () => {
           <h1 className="text-[52px] text-white font-semibold italic text-start">
             <span className="text-[#1471FF]">About</span> Us
           </h1>
-          <p className="text-xl text-[#AAAAAA] text-start">
+          <p className="text-lg text-[#AAAAAA] text-start">
             We are dedicated to developing a seamless process for your projects. Our platform leverages advanced AI Technology to analyze your design files and produce accurate reports.
           </p>
         </div>
 
         <div className="absolute bottom-0 right-0 w-2/5 bg-[#121212] p-5 px-5 py-10 rounded-tl-[20px]">
       
-          <p className="text-xl text-[#AAAAAA] text-start">
+          <p className="text-lg text-[#AAAAAA] text-start">
             Upload your designs with confidence, knowing your data is safe and your PDF are generated with precision.
           </p>
 

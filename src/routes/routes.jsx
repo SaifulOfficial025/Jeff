@@ -8,6 +8,7 @@ import EmailVerification from "../Pages/Authentication/EmailVerification";
 import OTP_Verification from "../Pages/Authentication/OTP_Verification";
 import ResetPassword from "../Pages/Authentication/ResetPassword";
 import Admin_Home from "../Layout/Admin/Admin_Home";
+import SelectionPage from "../Pages/Authentication/SelectionPage";
   
 
 export const router = createBrowserRouter([
@@ -28,9 +29,11 @@ export const router = createBrowserRouter([
         ]
     },
 
+    { path: '/select', element: <SelectionPage/>},
     {path: '/sign_up', element: <Registration/>},
     {path: '/login', element: <Login/>},
     {path: '/verify', element: <EmailVerification/>},
     {path: '/otp_verify', element: <OTP_Verification/>},
     {path: '/reset_password', element: <ResetPassword/>},
+
   ]);
