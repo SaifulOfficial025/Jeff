@@ -49,10 +49,10 @@ export default function RegistrationPage() {
           navigate("/base_labor_rates");
           break;
         case "employee":
-          navigate("/login");
+          navigate("/emplayee_login");
           break;
         default:
-          navigate("/login"); 
+          navigate("/vendor_login"); 
       }
     } catch (error) {
       console.error("Registration failed:", error);

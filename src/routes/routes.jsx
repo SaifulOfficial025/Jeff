@@ -19,6 +19,11 @@ import UserOTPVerfication from "../Pages/Authentication/userAuthentication/UserO
 import UserResetPass from "../Pages/Authentication/userAuthentication/UserResetPass";
 import EmplayeeRegistration from "../Pages/Authentication/EmployeeAuthentication/EmplayeeRegistration";
 import VendorRegistration from "../Pages/Authentication/VendorAuthentication/VendorRegistration";
+import EmployeeLogin from "../Pages/Authentication/EmployeeAuthentication/EmployeeLogin";
+import VendorLogin from "../Pages/Authentication/VendorAuthentication/VendorLogin";
+import EmplayeeEmailVerification from "../Pages/Authentication/EmployeeAuthentication/EmplayeeEmailVerification";
+import EmployeeOTPVerification from "../Pages/Authentication/EmployeeAuthentication/EmployeeOTPVerification";
+import EmplayeeResetPass from "../Pages/Authentication/EmployeeAuthentication/EmplayeeResetPass";
   
 
 export const router = createBrowserRouter([
@@ -50,6 +55,7 @@ export const router = createBrowserRouter([
     { path: '/general_project_context', element: <General_Project_Context/>},
     { path: '/fabrication_capabilities', element: <Fabrication_Capabilities/>},
     { path: '/field_erection', element: <Field_Erection/>},
+
     { path: '/user_login', element: <UserLogin/>},
     { path: '/user_email_verification', element: <EmailVerification/>},
     { path: '/user_otp_verify', element: <UserOTPVerfication/>},
@@ -58,10 +64,14 @@ export const router = createBrowserRouter([
 
     //employeeAuthentication
     {path: '/emplayee_sign_up', element: <EmplayeeRegistration/>},
-
+    {path: '/emplayee_login', element: <EmployeeLogin/>},
+    {path: '/emplayee_email_verification', element: <EmplayeeEmailVerification/>},
+    { path: '/emplayee_otp_verify', element: <EmployeeOTPVerification/>},
+  { path: '/emplayee_reset_password', element: <EmplayeeResetPass/>},
 
     //vendorAuthentication
-    {path: '/vendor_sign_up', element: <VendorRegistration/>}
+    {path: '/vendor_sign_up', element: <VendorRegistration/>},
+    {path: '/vendor_login', element: <VendorLogin/>}
    
 
 

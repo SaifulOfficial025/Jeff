@@ -13,7 +13,7 @@ export default function EmplayeeRegistration() {
   
   // Get role from query parameters
   const queryParams = new URLSearchParams(location.search);
-  const role = queryParams.get("role") || "user"; // Default to "user" if no role
+  const role = queryParams.get("role")  // Default to "user" if no role
 
   // React Hook Form setup
   const {
@@ -37,27 +37,29 @@ export default function EmplayeeRegistration() {
 
   // Form submission handler
   const onSubmit = async (data) => {
-    try {
-      // Simulate API call (replace with your actual API endpoint)
-      console.log("Form data:", { ...data, role });
+    console.log(data)
+    navigate("/emplayee_login")
+    // try {
+    //   // Simulate API call (replace with your actual API endpoint)
+    //   console.log("Form data:", { ...data, role });
 
      
 
 
-      switch (role.toLowerCase()) {
-        case "user":
-          navigate("/base_labor_rates");
-          break;
-        case "employee":
-          navigate("/login");
-          break;
-        default:
-          navigate("/login"); 
-      }
-    } catch (error) {
-      console.error("Registration failed:", error);
-      // Handle error (e.g., show toast notification)
-    }
+    //   switch (role.toLowerCase()) {
+    //     case "user":
+    //       navigate("/base_labor_rates");
+    //       break;
+    //     case "employee":
+    //       navigate("/emplayee_login");
+    //       break;
+    //     default:
+    //       navigate("/emplayee_login"); 
+    //   }
+    // } catch (error) {
+    //   console.error("Registration failed:", error);
+    //   // Handle error (e.g., show toast notification)
+    // }
   };
 
   return (
