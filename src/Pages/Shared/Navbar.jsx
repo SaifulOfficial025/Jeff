@@ -182,9 +182,11 @@ const Navbar = () => {
             <button className="border-[1px] rounded-full cursor-pointer border-[#1471FF] px-10 py-2">
               Login
             </button>
+            <Link to='/select_role'>
             <button className="text-white border border-[#1471FF] rounded-full bg-[#1471FF] px-10 py-2">
               Register
             </button>
+            </Link>
           </div>
         </div>
       </div>

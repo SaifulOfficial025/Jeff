@@ -5,7 +5,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-export default function RegistrationPage() {
+export default function VendorRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ export default function RegistrationPage() {
               )}
             </div>
 
-            {/* <div>
+            <div>
               <label className="text-gray-400 text-sm">Company Name</label>
               <input
                 type="text"
@@ -110,7 +110,7 @@ export default function RegistrationPage() {
               {errors.companyName && (
                 <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
               )}
-            </div> */}
+            </div>
 
             <div>
               <label className="text-gray-400 text-sm">Email Address</label>
