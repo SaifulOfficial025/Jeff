@@ -24,6 +24,9 @@ import VendorLogin from "../Pages/Authentication/VendorAuthentication/VendorLogi
 import EmplayeeEmailVerification from "../Pages/Authentication/EmployeeAuthentication/EmplayeeEmailVerification";
 import EmployeeOTPVerification from "../Pages/Authentication/EmployeeAuthentication/EmployeeOTPVerification";
 import EmplayeeResetPass from "../Pages/Authentication/EmployeeAuthentication/EmplayeeResetPass";
+import VendorEmailVerification from "../Pages/Authentication/VendorAuthentication/VendorEmailVerification";
+import VendorOTPVerification from "../Pages/Authentication/VendorAuthentication/VendorOTPVerification";
+import VendorResetPass from "../Pages/Authentication/VendorAuthentication/VendorResetPass";
   
 
 export const router = createBrowserRouter([
@@ -71,7 +74,10 @@ export const router = createBrowserRouter([
 
     //vendorAuthentication
     {path: '/vendor_sign_up', element: <VendorRegistration/>},
-    {path: '/vendor_login', element: <VendorLogin/>}
+    {path: '/vendor_login', element: <VendorLogin/>},
+    {path: "/vendor_email_verification", element:<VendorEmailVerification/>},
+    {path: "/vendor_otp_verify", element:<VendorOTPVerification/>},
+    {path: "/vendor_reset_password", element:<VendorResetPass/>}
    
 
 
