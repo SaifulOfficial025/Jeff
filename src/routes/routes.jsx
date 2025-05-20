@@ -27,6 +27,13 @@ import EmplayeeResetPass from "../Pages/Authentication/EmployeeAuthentication/Em
 import VendorEmailVerification from "../Pages/Authentication/VendorAuthentication/VendorEmailVerification";
 import VendorOTPVerification from "../Pages/Authentication/VendorAuthentication/VendorOTPVerification";
 import VendorResetPass from "../Pages/Authentication/VendorAuthentication/VendorResetPass";
+import AdminLogin from "../Pages/Authentication/AdminAuthentication/AdminLogin";
+import AdminEmailVerification from "../Pages/Authentication/AdminAuthentication/AdminEmailVerification";
+import AdminOTPVerification from "../Pages/Authentication/AdminAuthentication/AdminOTPVerification";
+import AdminResetPass from "../Pages/Authentication/AdminAuthentication/AdminRestPass";
+import UserInfo from "../Layout/Admin/UserInfo";
+import EmployeeInfo from "../Layout/Admin/EmployeeInfo";
+import VendorsInfo from "../Layout/Admin/VendorsInfo";
   
 
 export const router = createBrowserRouter([
@@ -43,7 +50,14 @@ export const router = createBrowserRouter([
         element: <DashboardLayout />,
       children: [
       {index: true, element: <Admin_Home />},
-      {path: 'admin_home', element: <Admin_Home/>}
+      {path: 'admin_home', element: <Admin_Home/>},
+      {path: 'users_info', element: <UserInfo/>},
+      {path: 'employee_info', element: <EmployeeInfo/>},
+      {path: 'vendors_info', element: <VendorsInfo/>},
+
+
+
+
         ]
     },
 
@@ -77,7 +91,14 @@ export const router = createBrowserRouter([
     {path: '/vendor_login', element: <VendorLogin/>},
     {path: "/vendor_email_verification", element:<VendorEmailVerification/>},
     {path: "/vendor_otp_verify", element:<VendorOTPVerification/>},
-    {path: "/vendor_reset_password", element:<VendorResetPass/>}
+    {path: "/vendor_reset_password", element:<VendorResetPass/>},
+
+
+      //admin authentication
+    {path: "/admin_login", element: <AdminLogin/>},
+    {path: "/admin_email_verification", element: <AdminEmailVerification/>},
+  { path: "/admin_otp_verify", element: <AdminOTPVerification /> },
+    {path: "/admin_reset_password", element:<AdminResetPass/>},
    
 
 
