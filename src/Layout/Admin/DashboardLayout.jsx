@@ -199,7 +199,7 @@ import {
 
 const getUserRole = () => {
   // For demo purposes, you can change this to test different roles
-  return "Admin" // Options: "Admin", "Employee", "Vendor"
+  return "Employee" // Options: "Admin", "Employee", "Vendor"
 }
 
 export default function DashboardLayout() {
