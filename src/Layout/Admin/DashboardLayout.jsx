@@ -175,7 +175,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom"
+import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom"
 import {
   Bell,
   Calendar,
@@ -199,7 +199,7 @@ import {
 
 const getUserRole = () => {
   // For demo purposes, you can change this to test different roles
-  return "Employee" // Options: "Admin", "Employee", "Vendor"
+  return "Vendor" // Options: "Admin", "Employee", "Vendor"
 }
 
 export default function DashboardLayout() {
@@ -215,7 +215,7 @@ export default function DashboardLayout() {
     {
       name: "Home",
       icon: <LayoutPanelLeft  size={20} />,
-      path: "/dashboard",
+      path: "/dashboard/admin_home",
     },
     {
       name: "Users",
@@ -238,36 +238,32 @@ export default function DashboardLayout() {
     {
       name: "Home",
       icon: <Home size={20} />,
-      path: "/dashboard",
+      path: "/dashboard/employee_home",
     },
     {
       name: "Chat",
       icon: <MessageSquare size={20} />,
-      path: "/dashboard/chat",
-    },
-    {
-      name: "Profile",
-      icon: <User size={20} />,
-      path: "/dashboard/profile",
-    },
+      path: "/dashboard/employee_chat",
+    }
+ 
   ]
 
   const vendorMenuItems = [
     {
       name: "Home",
       icon: <Home size={20} />,
-      path: "/dashboard",
+      path: "/dashboard/vendor_home",
     },
     {
       name: "Chat",
       icon: <MessageSquare size={20} />,
-      path: "/dashboard/chat",
+      path: "/dashboard/vendor_chat",
     },
-    {
-      name: "Profile",
-      icon: <User size={20} />,
-      path: "/dashboard/profile",
-    },
+    // {
+    //   name: "Profile",
+    //   icon: <User size={20} />,
+    //   path: "/dashboard/profile",
+    // },
   ]
 
   // Get the appropriate menu items based on user role
@@ -340,13 +336,13 @@ export default function DashboardLayout() {
         } ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
       >
         {/* Logo and collapse button */}
-      <div className="flex items-center justify-center">
+      <Link to="/" className="flex items-center justify-center">
          <img
               src="https://images.seeklogo.com/logo-png/33/2/real-estate-logo-png_seeklogo-331345.png"
               alt="logo"
               className="w-[150px]"
             />
-      </div>
+      </Link>
 
         {/* Navigation */}
         <nav className="flex-1 overflow-y-auto py-6 px-3">

@@ -34,6 +34,12 @@ import AdminResetPass from "../Pages/Authentication/AdminAuthentication/AdminRes
 import UserInfo from "../Layout/Admin/UserInfo";
 import EmployeeInfo from "../Layout/Admin/EmployeeInfo";
 import VendorsInfo from "../Layout/Admin/VendorsInfo";
+import EmployeeHome from "../Layout/Employee/EmployeeHome";
+import EmployeeChat from "../Layout/Employee/EmployeeChat";
+import VendorHome from "../Layout/Vendor/VendorHome";
+import VendorChat from "../Layout/Vendor/VendorChat";
+import ProjectReport from "../Layout/User/ProjectReport";
+import ReportGenerate from "../Layout/User/ReportGenerate";
   
 
 export const router = createBrowserRouter([
@@ -49,17 +55,28 @@ export const router = createBrowserRouter([
         path: '/dashboard',
         element: <DashboardLayout />,
       children: [
-      {index: true, element: <Admin_Home />},
+      // {index: true, element: <Admin_Home />},
       {path: 'admin_home', element: <Admin_Home/>},
       {path: 'users_info', element: <UserInfo/>},
       {path: 'employee_info', element: <EmployeeInfo/>},
       {path: 'vendors_info', element: <VendorsInfo/>},
 
 
+      {path: 'employee_home', element: <EmployeeHome/>},
+      {path: 'employee_chat', element: <EmployeeChat/>},
+
+
+      {path: 'vendor_home', element: <VendorHome/>},
+      {path: 'vendor_chat', element: <VendorChat/>},
 
 
         ]
     },
+
+    //user dashboard
+
+    {path:'project_report', element:<ProjectReport/>},
+    {path:'project_report_generate', element:<ReportGenerate/>},
 
 
 

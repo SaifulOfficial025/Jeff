@@ -218,7 +218,7 @@ const AdminHome = () => {
 
       {/* Recently Joined Table */}
       <div className="bg-[#161D27] border border-gray-500/60 rounded-lg p-5">
-        <h2 className="text-white text-xl font-medium mb-6">Recently Joined</h2>
+      <h2 className="text-[#1471FF] text-[28px] font-semibold mb-6">Recently Joined</h2>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
