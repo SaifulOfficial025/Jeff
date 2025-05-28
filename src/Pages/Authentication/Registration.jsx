@@ -1,5 +1,3 @@
-
-
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,7 +8,7 @@ export default function RegistrationPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   // Get role from query parameters
   const queryParams = new URLSearchParams(location.search);
   const role = queryParams.get("role") || "user"; // Default to "user" if no role
@@ -32,17 +30,12 @@ export default function RegistrationPage() {
     },
   });
 
-  // Watch password for confirm password validation
   const password = watch("password");
 
   // Form submission handler
   const onSubmit = async (data) => {
     try {
-      // Simulate API call (replace with your actual API endpoint)
       console.log("Form data:", { ...data, role });
-
-     
-
 
       switch (role.toLowerCase()) {
         case "user":
@@ -52,11 +45,10 @@ export default function RegistrationPage() {
           navigate("/emplayee_login");
           break;
         default:
-          navigate("/vendor_login"); 
+          navigate("/vendor_login");
       }
     } catch (error) {
       console.error("Registration failed:", error);
-      // Handle error (e.g., show toast notification)
     }
   };
 
@@ -77,7 +69,9 @@ export default function RegistrationPage() {
 
         <div className="w-full md:w-1/2 max-w-md">
           <div className="text-center mb-6">
-            <h1 className="text-[38px] font-bold text-blue-500">DOS Estimator</h1>
+            <h1 className="text-[38px] font-bold text-blue-500">
+              DOS Estimator
+            </h1>
             <p className="text-white text-lg mb-10">Register Now!</p>
           </div>
 
@@ -93,7 +87,9 @@ export default function RegistrationPage() {
                 {...register("fullName", { required: "Full name is required" })}
               />
               {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.fullName.message}
+                </p>
               )}
             </div>
 
@@ -129,7 +125,9 @@ export default function RegistrationPage() {
                 })}
               />
               {errors.email && (
-                <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
@@ -150,7 +148,9 @@ export default function RegistrationPage() {
                 })}
               />
               {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.phone.message}
+                </p>
               )}
             </div>
 
@@ -180,7 +180,9 @@ export default function RegistrationPage() {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
@@ -204,11 +206,17 @@ export default function RegistrationPage() {
                   className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
                 </button>
               </div>
               {errors.confirmPassword && (
-                <p className="text-red-500 text-sm mt-1">{errors.confirmPassword.message}</p>
+                <p className="text-red-500 text-sm mt-1">
+                  {errors.confirmPassword.message}
+                </p>
               )}
             </div>
 
@@ -219,26 +227,23 @@ export default function RegistrationPage() {
               Register
             </button>
 
-          
-<div className="flex items-center w-full px-10 gap-2">
-  <div className="flex-grow border-t border-white"></div>
-  <div className="text-white">OR</div>
-  <div className="flex-grow border-t border-white"></div>
-</div>
+            <div className="flex items-center w-full px-10 gap-2">
+              <div className="flex-grow border-t border-white"></div>
+              <div className="text-white">OR</div>
+              <div className="flex-grow border-t border-white"></div>
+            </div>
 
             <button
-  type="submit"
-  className="flex cursor-pointer w-2/3 items-center justify-center mx-auto py-2 text-lg font-medium text-white rounded-full bg-transparent shadow-none border border-white"
->
-  <img
-    src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
-    alt="Google icon"
-    className="w-[26px] me-2"
-  />
-  Continue with Google
-</button>
-
-
+              type="submit"
+              className="flex cursor-pointer w-2/3 items-center justify-center mx-auto py-2 text-lg font-medium text-white rounded-full bg-transparent shadow-none border border-white"
+            >
+              <img
+                src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
+                alt="Google icon"
+                className="w-[26px] me-2"
+              />
+              Continue with Google
+            </button>
           </form>
 
           <div className="text-center mt-4 text-sm">

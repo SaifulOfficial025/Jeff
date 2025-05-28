@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const UserLogin = () => {
  const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +21,11 @@ const UserLogin = () => {
   });
 
 
+  //catch the role
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const role = searchParams.get("role");
+  console.log(role, "role basis")
 
   // Form submission handler
   const onSubmit = async (data) => {
