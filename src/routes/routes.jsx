@@ -70,12 +70,8 @@ export const router = createBrowserRouter([
       {path: 'vendor_chat', element: <VendorChat/>},
 
 
-        ]
-    },
 
-    //user dashboard
-
-    {path:'project_report', element:<ProjectReport/>},
+       {path:'project_report', element:<ProjectReport/>},
     {path:'project_report_generate', element:<ReportGenerate/>},
 
 
@@ -116,6 +112,13 @@ export const router = createBrowserRouter([
     {path: "/admin_email_verification", element: <AdminEmailVerification/>},
   { path: "/admin_otp_verify", element: <AdminOTPVerification /> },
     {path: "/admin_reset_password", element:<AdminResetPass/>},
+   
+
+        ]
+    },
+
+    //user dashboard
+
    
 
 
