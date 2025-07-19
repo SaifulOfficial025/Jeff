@@ -1,52 +1,14 @@
 import { Ellipsis } from "lucide-react"
 import { FaRegTrashAlt, FaSearch } from "react-icons/fa"
 import { MdBlock } from "react-icons/md"
+import { useGetDashboardVendorQuery } from "../../redux/features/baseApi"
 
 
 const VendorsInfo = () => {
 
-      const recentUsers = [
-    {
-      id: "02",
-      name: "Mikel Jack",
-      email: "mikel@gmail.com",
-      role: "Supervisor",
-      country: "United States",
-      time: "12:00 AM",
-    },
-    {
-      id: "03",
-      name: "Mikel Jack",
-      email: "mikel@gmail.com",
-      role: "Supervisor",
-      country: "United States",
-      time: "12:00 AM",
-    },
-    {
-      id: "04",
-      name: "Mikel Jack",
-      email: "mikel@gmail.com",
-      role: "Supervisor",
-      country: "United States",
-      time: "12:00 AM",
-    },
-    {
-      id: "05",
-      name: "Mikel Jack",
-      email: "mikel@gmail.com",
-      role: "Supervisor",
-      country: "United States",
-      time: "12:00 AM",
-    },
-    {
-      id: "06",
-      name: "Mikel Jack",
-      email: "mikel@gmail.com",
-      role: "Supervisor",
-      country: "United States",
-      time: "12:00 AM",
-    },
-  ]
+
+
+  const {data:vendorDashboardInfo} = useGetDashboardVendorQuery()
   return (
     <div>
 <div className="form-control w-full mb-5 flex justify-end ">
@@ -67,7 +29,7 @@ const VendorsInfo = () => {
      
       
 
-        <div className="overflow-x-auto">
+        <div className="">
 
           <table className="table w-full">
             <thead>
@@ -82,7 +44,7 @@ const VendorsInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {recentUsers.map((user) => (
+              {vendorDashboardInfo?.map((user) => (
                 <tr key={user.id} className="border-b border-gray-800 hover:bg-gray-800/30 cursor-pointer">
                   <td className="text-gray-300 bg-transparent">{user.id}</td>
                   <td className="bg-transparent">
@@ -98,7 +60,13 @@ const VendorsInfo = () => {
                   <td className="text-gray-300 bg-transparent">{user.email}</td>
                   <td className="text-gray-300 bg-transparent">{user.role}</td>
                   <td className="text-gray-300 bg-transparent">{user.country}</td>
-                  <td className="text-gray-300 bg-transparent">{user.time}</td>
+                   <td className="text-gray-300 bg-transparent">
+                    {new Date(user.joined_at).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
                   <td className="text-gray-300 bg-transparent">
                         <div className="dropdown dropdown-end z-50">
                             <div tabIndex={0} role="button" className="m-1"><Ellipsis size={24} /></div>

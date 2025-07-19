@@ -1,47 +1,43 @@
 
-
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useCreateUserMutation } from "../../../redux/features/baseApi";
 
 export default function VendorRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Get role from query parameters
-  const queryParams = new URLSearchParams(location.search);
-  const role = queryParams.get("role") || "user"; // Default to "user" if no role
+  const [createUser] = useCreateUserMutation();
 
-  // React Hook Form setup
+  const queryParams = new URLSearchParams(location.search);
+  const role = queryParams.get("role") || "user"; 
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
-    defaultValues: {
-      fullName: "",
-      companyName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
+  } = useForm();
 
-  // Watch password for confirm password validation
   const password = watch("password");
 
-  // Form submission handler
   const onSubmit = async (data) => {
     try {
-      // Simulate API call (replace with your actual API endpoint)
-      console.log("Form data:", { ...data, role });
+      
+     const payload = {
+        role,
+        email: data?.email,
+        full_name: data?.full_name,
+        password: data?.password,
+        company_name: data?.company_name,
+        phone_number: data?.phone_number
+      };
 
-     
+      const userCreateResponse = await createUser(payload).unwrap();
+      console.log(userCreateResponse, "userCreateResponse");
 
 
       switch (role.toLowerCase()) {
@@ -90,7 +86,7 @@ export default function VendorRegistration() {
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
                   errors.fullName ? "input-error" : ""
                 }`}
-                {...register("fullName", { required: "Full name is required" })}
+                {...register("full_name", { required: "Full name is required" })}
               />
               {errors.fullName && (
                 <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
@@ -105,7 +101,7 @@ export default function VendorRegistration() {
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
                   errors.companyName ? "input-error" : ""
                 }`}
-                {...register("companyName", { required: "Company name is required" })}
+                {...register("company_name", { required: "Company name is required" })}
               />
               {errors.companyName && (
                 <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
@@ -141,7 +137,7 @@ export default function VendorRegistration() {
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
                   errors.phone ? "input-error" : ""
                 }`}
-                {...register("phone", {
+                {...register("phone_number", {
                   required: "Phone number is required",
                   pattern: {
                     value: /^\d{10,15}$/,

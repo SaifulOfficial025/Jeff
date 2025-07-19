@@ -4,62 +4,50 @@ import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useCreateUserMutation } from "../../../redux/features/baseApi";
 
 export default function EmplayeeRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Get role from query parameters
-  const queryParams = new URLSearchParams(location.search);
-  const role = queryParams.get("role")  // Default to "user" if no role
+  const [createUser] = useCreateUserMutation();
 
-  // React Hook Form setup
+  
+  
+  const queryParams = new URLSearchParams(location.search);
+  const role = queryParams.get("role")  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-  } = useForm({
-    defaultValues: {
-      fullName: "",
-      companyName: "",
-      email: "",
-      phone: "",
-      password: "",
-      confirmPassword: "",
-    },
-  });
+  } = useForm();
 
-  // Watch password for confirm password validation
   const password = watch("password");
 
-  // Form submission handler
   const onSubmit = async (data) => {
     console.log(data)
+
+    try {
+
+       const payload = {
+        role,
+        email: data?.email,
+        phone_number: data?.phone_number,
+        username: data?.username,
+        password: data?.password, 
+      };
+
+      const employeeResponse = await createUser(payload).unwrap();
+      console.log(employeeResponse, "employeeResponse");
+    } catch (error) {
+      console.log("error", error)
+    }
+
     navigate("/emplayee_login")
-    // try {
-    //   // Simulate API call (replace with your actual API endpoint)
-    //   console.log("Form data:", { ...data, role });
-
-     
-
-
-    //   switch (role.toLowerCase()) {
-    //     case "user":
-    //       navigate("/base_labor_rates");
-    //       break;
-    //     case "employee":
-    //       navigate("/emplayee_login");
-    //       break;
-    //     default:
-    //       navigate("/emplayee_login"); 
-    //   }
-    // } catch (error) {
-    //   console.error("Registration failed:", error);
-    //   // Handle error (e.g., show toast notification)
-    // }
+    
   };
 
   return (
@@ -98,21 +86,6 @@ export default function EmplayeeRegistration() {
                 <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
               )}
             </div>
-
-            {/* <div>
-              <label className="text-gray-400 text-sm">Company Name</label>
-              <input
-                type="text"
-                placeholder="Acme Inc"
-                className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
-                  errors.companyName ? "input-error" : ""
-                }`}
-                {...register("companyName", { required: "Company name is required" })}
-              />
-              {errors.companyName && (
-                <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
-              )}
-            </div> */}
 
             <div>
               <label className="text-gray-400 text-sm">Email Address</label>
@@ -220,27 +193,24 @@ export default function EmplayeeRegistration() {
             >
               Register
             </button>
-
-          
-<div className="flex items-center w-full px-10 gap-2">
-  <div className="flex-grow border-t border-white"></div>
-  <div className="text-white">OR</div>
-  <div className="flex-grow border-t border-white"></div>
-</div>
+      
+                <div className="flex items-center w-full px-10 gap-2">
+                  <div className="flex-grow border-t border-white"></div>
+                  <div className="text-white">OR</div>
+                  <div className="flex-grow border-t border-white"></div>
+                </div>
 
             <button
-  type="submit"
-  className="flex cursor-pointer w-2/3 items-center justify-center mx-auto py-2 text-lg font-medium text-white rounded-full bg-transparent shadow-none border border-white"
->
-  <img
-    src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
-    alt="Google icon"
-    className="w-[26px] me-2"
-  />
-  Continue with Google
-</button>
-
-
+                type="submit"
+                className="flex cursor-pointer w-2/3 items-center justify-center mx-auto py-2 text-lg font-medium text-white rounded-full bg-transparent shadow-none border border-white"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/128/281/281764.png"
+                  alt="Google icon"
+                  className="w-[26px] me-2"
+                />
+                Continue with Google
+              </button>
           </form>
 
           <div className="text-center mt-4 text-sm">

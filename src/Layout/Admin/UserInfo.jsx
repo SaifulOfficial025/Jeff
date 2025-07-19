@@ -1,6 +1,7 @@
 import { Ellipsis } from "lucide-react"
 import { FaRegTrashAlt, FaSearch } from "react-icons/fa"
 import { MdBlock } from "react-icons/md"
+import { useGetDashboardUsersQuery } from "../../redux/features/baseApi"
 
 
 const UserInfo = () => {
@@ -47,6 +48,10 @@ const UserInfo = () => {
       time: "12:00 AM",
     },
   ]
+
+  const {data:userDashboardInfo} = useGetDashboardUsersQuery();
+  console.log("5555",userDashboardInfo)
+  
   return (
     <div>
 <div className="form-control w-full mb-5 flex justify-end ">
@@ -67,7 +72,7 @@ const UserInfo = () => {
      
       
 
-        <div className="overflow-x-auto">
+        <div className="">
 
           <table className="table w-full">
             <thead>
@@ -82,23 +87,30 @@ const UserInfo = () => {
               </tr>
             </thead>
             <tbody>
-              {recentUsers.map((user) => (
+              {userDashboardInfo?.map((user) => (
                 <tr key={user.id} className="border-b border-gray-800 hover:bg-gray-800/30 cursor-pointer">
                   <td className="text-gray-300 bg-transparent">{user.id}</td>
                   <td className="bg-transparent">
                     <div className="flex items-center gap-2">
                       <div className="avatar">
-  <div className="w-12 rounded-full">
-    <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
-  </div>
-</div>
+            <div className="w-12 rounded-full">
+              <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+            </div>
+          </div>
                       <span className="text-gray-300">{user.name}</span>
                     </div>
                   </td>
                   <td className="text-gray-300 bg-transparent">{user.email}</td>
                   <td className="text-gray-300 bg-transparent">{user.role}</td>
                   <td className="text-gray-300 bg-transparent">{user.country}</td>
-                  <td className="text-gray-300 bg-transparent">{user.time}</td>
+                 <td className="text-gray-300 bg-transparent">
+                    {new Date(user.joined_at).toLocaleDateString("en-US", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </td>
+
                   <td className="text-gray-300 bg-transparent">
                         <div className="dropdown dropdown-end">
                             <div tabIndex={0} role="button" className="m-1"><Ellipsis size={24} /></div>

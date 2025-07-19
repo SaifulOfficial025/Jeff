@@ -3,7 +3,7 @@
 
 import { Link } from "react-router-dom";
 
-const SelectionPage = () => {
+const SelectLoginPage = () => {
   return (
     <section className="bg-[#121212] min-h-screen flex items-center justify-center px-4">
       <div className="flex justify-center lg:flex-row items-center w-full">
@@ -18,13 +18,13 @@ const SelectionPage = () => {
             <h1 className="text-[#0084FF] text-3xl lg:text-4xl font-bold text-center">
               DO5 Estimator
             </h1>
-            <p className="text-gray-300 text-center text-lg pb-8">Register as a</p>
+            <p className="text-gray-300 text-center text-lg pb-8">Login as a</p>
           </div>
 
           <div className="flex flex-col gap-4 justify-center lg:justify-start w-2/4 mx-auto">
             <Link 
             to={{
-                 pathname: '/sign_up',
+                 pathname: '/user_login',
                 search: '?role=user' }}
             className="w-full">
               <button
@@ -41,7 +41,7 @@ const SelectionPage = () => {
 
             <Link 
             to={{
-                 pathname: '/vendor_sign_up',
+                 pathname: '/vendor_login',
                 search: '?role=vendor' }}
             className="w-full">
               <button
@@ -58,7 +58,7 @@ const SelectionPage = () => {
 
             <Link 
             to={{
-                 pathname: '/sign_up',
+                 pathname: '/emplayee_login',
                 search: '?role=employee' }}
             className="w-full">
               <button
@@ -79,7 +79,7 @@ const SelectionPage = () => {
   );
 };
 
-export default SelectionPage;
+export default SelectLoginPage;
 
 
 

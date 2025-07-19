@@ -2,25 +2,117 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
-    baseQuery: fetchBaseQuery({ baseUrl: 'base-api-will-go-here' }),
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: 'http://10.10.13.60:8000',
 
-    tagTypes: [],
+          prepareHeaders: (headers) => {
+            const token = localStorage.getItem("access_token");
+            if (token) {
+                headers.set("Authorization", `Bearer ${token}`);
+            }
+            return headers;
+        },
+     }),
+
+    tagTypes: ["users", "employee"],
     endpoints: (builder) => ({
 
-        createUser: builder.mutation({
-            query: (userData) => ({
-                url: '/create-user',
+        //create user
+      createUser: builder.mutation({
+        query: ({ role, ...userData }) => ({
+                url: `/api/users/signup/?role=${role}`,
                 method: "POST",
                 body: userData,
-            })
+                providesTags: ['users'],
+            }),
         }),
+
+        
+     //login user
+    userLogin: builder.mutation({
+        query: ({role, ...loggedInData})=>({
+            url: `/api/users/login/?role=${role}`,
+            method: "POST",
+            body: loggedInData,
+            providesTags: ["users"]
+        })
+    }),
+
+
+
+    //admin login
+
+    adminLogin: builder.mutation({
+        query: ({...adminLoggedInData})=>({
+            url: `/api/super-admin/admin-login/`,
+            method: "POST",
+            body: adminLoggedInData,
+           
+        })
+    }),
+
+    //perticular logged user
+    
+
+
+    //dashboard
+
+  getStatisticData: builder.query({
+    query: ()=> "/api/super-admin/statistics/"
+  }),
+
+  getUserGrowth: builder.query({
+    query: ()=> "/api/super-admin/user-growth/"
+  }),
+
+  getDashboardUsers: builder.query({
+    query: ()=> "/api/super-admin/users/"
+  }),
+
+  getDashboardEmployee: builder.query({
+    query: ()=> "/api/super-admin/employees/",
+    providesTags: ["employee"]
+  }),
+
+  getDashboardVendor: builder.query({
+    query: ()=> "/api/super-admin/vendors/"
+  }),
+
+  //delete employee
+  deleteEmployee: builder.mutation({
+    query: (id)=>({
+        url:`/api/super-admin/employees/${id}/delete/`,
+        method: "DELETE"
+    }),
+    invalidatesTags: ["employee"]
+  })
+
+
+
+
     }),
 });
 
 
 export const { 
 
-    useCreateUserMutation
+    //authentication
+    useCreateUserMutation,
+    useUserLoginMutation,
+
+    //admin login
+    useAdminLoginMutation,
+
+    //admin
+    useGetStatisticDataQuery,
+    useGetUserGrowthQuery,
+    useGetDashboardUsersQuery,
+    useGetDashboardEmployeeQuery,
+    useGetDashboardVendorQuery,
+
+    //delete employee
+    useDeleteEmployeeMutation,
+
 
  } = baseApi
 
