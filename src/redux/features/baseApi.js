@@ -14,7 +14,7 @@ export const baseApi = createApi({
         },
      }),
 
-    tagTypes: ["users", "employee"],
+    tagTypes: ["users", "employee", "vendors"],
     endpoints: (builder) => ({
 
         //create user
@@ -37,8 +37,6 @@ export const baseApi = createApi({
             providesTags: ["users"]
         })
     }),
-
-
 
     //admin login
 
@@ -66,7 +64,8 @@ export const baseApi = createApi({
   }),
 
   getDashboardUsers: builder.query({
-    query: ()=> "/api/super-admin/users/"
+    query: ()=> "/api/super-admin/users/",
+    providesTags: ["users"]
   }),
 
   getDashboardEmployee: builder.query({
@@ -75,7 +74,8 @@ export const baseApi = createApi({
   }),
 
   getDashboardVendor: builder.query({
-    query: ()=> "/api/super-admin/vendors/"
+    query: ()=> "/api/super-admin/vendors/",
+    providesTags: ["vendors"]
   }),
 
   //delete employee
@@ -85,7 +85,27 @@ export const baseApi = createApi({
         method: "DELETE"
     }),
     invalidatesTags: ["employee"]
-  })
+  }),
+
+  //delete users
+  deleteUser: builder.mutation({
+    query: (id)=>({
+        url:`/api/super-admin/users/${id}/delete/`,
+        method: "DELETE"
+    }),
+    invalidatesTags: ["users"]
+  }),
+
+//delete vendor
+ deleteVendor: builder.mutation({
+        query: (id)=>({
+            url:`/api/super-admin/vendors/${id}/delete/`,
+            method: "DELETE"
+        }),
+        invalidatesTags: ["vendors"]
+    }),
+
+
 
 
 
@@ -113,6 +133,11 @@ export const {
     //delete employee
     useDeleteEmployeeMutation,
 
+    //delete users
+    useDeleteUserMutation,
+
+    //delete vendor
+    useDeleteVendorMutation,
 
  } = baseApi
 
