@@ -78,6 +78,11 @@ export const baseApi = createApi({
     providesTags: ["vendors"]
   }),
 
+  //recent users
+  getRecentUsers: builder.query({
+    query: ()=> "/api/super-admin/recent-joins/"
+  }),
+
   //delete employee
   deleteEmployee: builder.mutation({
     query: (id)=>({
@@ -106,6 +111,37 @@ export const baseApi = createApi({
     }),
 
 
+    //block/unblock user
+    blockUser: builder.mutation({
+      query: (id)=>({
+        url: `/api/super-admin/users/${id}/block/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["users"]
+
+    }),
+
+       //block/unblock user
+    blockEmployee: builder.mutation({
+      query: (id)=>({
+        url: `/api/super-admin/employees/${id}/block/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["employee"]
+
+    }),
+
+    //block dendor
+      blockVendor: builder.mutation({
+      query: (id)=>({
+        url: `/api/super-admin/vendors/${id}/block/`,
+        method: "POST",
+      }),
+      invalidatesTags: ["vendors"]
+
+    }),
+
+
 
 
 
@@ -129,6 +165,9 @@ export const {
     useGetDashboardUsersQuery,
     useGetDashboardEmployeeQuery,
     useGetDashboardVendorQuery,
+    useGetRecentUsersQuery,
+
+  
 
     //delete employee
     useDeleteEmployeeMutation,
@@ -138,6 +177,16 @@ export const {
 
     //delete vendor
     useDeleteVendorMutation,
+
+    //block users
+    useBlockUserMutation,
+
+    //block employee
+    useBlockEmployeeMutation,
+
+    //block vendor
+    useBlockVendorMutation,
+
 
  } = baseApi
 
