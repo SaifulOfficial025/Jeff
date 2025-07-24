@@ -1,12 +1,14 @@
 import { Eye, EyeOff } from 'lucide-react';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const UserResetPass = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const [apiError, setApiError] = useState("");
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -15,10 +17,6 @@ const UserResetPass = () => {
     watch,
   } = useForm({
     defaultValues: {
-      fullName: "",
-      companyName: "",
-      email: "",
-      phone: "",
       password: "",
       confirmPassword: "",
     },
@@ -29,7 +27,29 @@ const UserResetPass = () => {
 
   // Form submission handler
   const onSubmit = async (data) => {
-  console.log(data)
+    setApiError("");
+    const email = localStorage.getItem("reset_email");
+    if (!email) {
+      setApiError("Email not found. Please restart the process.");
+      return;
+    }
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://10.10.13.60:8000"}/api/users/reset-password/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, new_password: data.password }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Failed to reset password");
+      }
+      setSuccess(true);
+      setTimeout(() => {
+        navigate("/user_login");
+      }, 1500);
+    } catch (err) {
+      setApiError(err.message);
+    }
   };
 
   return (
@@ -113,16 +133,15 @@ const UserResetPass = () => {
               )}
             </div>
 
-          <Link to="/user_login">
-          
+            {apiError && <p className="text-red-500 text-sm mt-2">{apiError}</p>}
+            {success && <p className="text-green-500 text-sm mt-2">Password reset successful! Redirecting to login...</p>}
             <button
               type="submit"
               className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"
+              disabled={success}
             >
               Reset
             </button>
-          </Link>
-
           </form>
 
         </div>

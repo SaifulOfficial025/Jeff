@@ -16,11 +16,11 @@ import UserOTPVerfication from "../Pages/Authentication/userAuthentication/UserO
 import UserResetPass from "../Pages/Authentication/userAuthentication/UserResetPass";
 
 // Employee Authentication
-import EmplayeeRegistration from "../Pages/Authentication/EmployeeAuthentication/EmplayeeRegistration";
+import employeeRegistration from "../Pages/Authentication/EmployeeAuthentication/employeeRegistration";
 import EmployeeLogin from "../Pages/Authentication/EmployeeAuthentication/EmployeeLogin";
-import EmplayeeEmailVerification from "../Pages/Authentication/EmployeeAuthentication/EmplayeeEmailVerification";
+import employeeEmailVerification from "../Pages/Authentication/EmployeeAuthentication/employeeEmailVerification";
 import EmployeeOTPVerification from "../Pages/Authentication/EmployeeAuthentication/EmployeeOTPVerification";
-import EmplayeeResetPass from "../Pages/Authentication/EmployeeAuthentication/EmplayeeResetPass";
+import employeeResetPass from "../Pages/Authentication/EmployeeAuthentication/employeeResetPass";
 
 // Vendor Authentication
 import VendorRegistration from "../Pages/Authentication/VendorAuthentication/VendorRegistration";
@@ -43,10 +43,14 @@ import EmployeeInfo from "../Layout/Admin/EmployeeInfo";
 import VendorsInfo from "../Layout/Admin/VendorsInfo";
 import EmployeeHome from "../Layout/Employee/EmployeeHome";
 import EmployeeChat from "../Layout/Employee/EmployeeChat";
+import EmployeeProfile from "../Layout/Employee/EmployeeProfile";
 import VendorHome from "../Layout/Vendor/VendorHome";
 import VendorChat from "../Layout/Vendor/VendorChat";
+import VendorProfile from "../Layout/Vendor/VendorProfile";
 import ProjectReport from "../Layout/User/ProjectReport";
 import ReportGenerate from "../Layout/User/ReportGenerate";
+import UserProfile from "../Layout/User/UserProfile";
+import UserChat from "../Layout/User/UserChat";
 import SelectLoginPage from "../Pages/Authentication/SelectLoginPage";
 
 export const router = createBrowserRouter([
@@ -68,12 +72,16 @@ export const router = createBrowserRouter([
 
       { path: "employee_home", element: <EmployeeHome /> },
       { path: "employee_chat", element: <EmployeeChat /> },
+      { path: "employee_profile", element: <EmployeeProfile /> },
       
       { path: "vendor_home", element: <VendorHome /> },
       { path: "vendor_chat", element: <VendorChat /> },
+      { path: "vendor_profile", element: <VendorProfile /> },
+      
     
     ],
   },
+  { path: "user_chat", element: <UserChat /> },
 
   // 🔐 Auth Routes (Absolute - not nested inside /dashboard)
   { path: "/select_role", element: <SelectionPage /> },
@@ -87,16 +95,16 @@ export const router = createBrowserRouter([
   { path: "/field_erection", element: <Field_Erection /> },
 
   { path: "/user_login", element: <UserLogin /> },
-  { path: "/user_email_verification", element: <EmailVerification /> },
-  { path: "/user_otp_verify", element: <UserOTPVerfication /> },
-  { path: "/user_reset_password", element: <UserResetPass /> },
+  { path: "/email_verification", element: <EmailVerification /> },
+  { path: "/otp_verify", element: <UserOTPVerfication /> },
+  { path: "/reset_password", element: <UserResetPass /> },
 
   // 🔐 Employee Authentication
-  { path: "/emplayee_sign_up", element: <EmplayeeRegistration /> },
-  { path: "/emplayee_login", element: <EmployeeLogin /> },
-  { path: "/emplayee_email_verification", element: <EmplayeeEmailVerification /> },
-  { path: "/emplayee_otp_verify", element: <EmployeeOTPVerification /> },
-  { path: "/emplayee_reset_password", element: <EmplayeeResetPass /> },
+  { path: "/employee_sign_up", element: <employeeRegistration /> },
+  { path: "/employee_login", element: <EmployeeLogin /> },
+  { path: "/employee_email_verification", element: <employeeEmailVerification /> },
+  { path: "/employee_otp_verify", element: <EmployeeOTPVerification /> },
+  { path: "/employee_reset_password", element: <employeeResetPass /> },
 
   // 🔐 Vendor Authentication
   { path: "/vendor_sign_up", element: <VendorRegistration /> },
@@ -116,4 +124,5 @@ export const router = createBrowserRouter([
   //user dashboard 
     { path: "/project_report", element: <ProjectReport /> },
     { path: "/project_report_generate", element: <ReportGenerate /> },
+    { path: "/user/profile", element: <UserProfile /> },
 ]);

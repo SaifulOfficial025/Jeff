@@ -289,11 +289,32 @@
 
 
 
-import React, { useState } from 'react';
-import { FaDownload, FaBell, FaChevronDown, FaCog, FaSignOutAlt, FaComment } from 'react-icons/fa';
+
+import React, { useState, useEffect } from 'react';
+import { FaDownload, FaComment } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import PackagePlanModal from './PackageModal';
+import { loadFromLocalStorage } from '../../redux/features/projectSlice';
+import { useGetLatestProjectQuery, useSendToEmployeeMutation } from '../../redux/features/baseApi';
+import { useGetProjectDetailsQuery } from '../../redux/features/baseApi';
+import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import UserNavbar from './UserNavbar';
 
 const ReportGenerate = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { projectName, currentProject } = useSelector((state) => state.project);
+  const { data: latestProject } = useGetLatestProjectQuery();
+  // Get current project id
+  const projectId = currentProject?.project_id;
+  const { data: projectDetails, isLoading: projectLoading } = useGetProjectDetailsQuery(projectId, { skip: !projectId });
+  const [sendToEmployee, { isLoading: isSending }] = useSendToEmployeeMutation();
+
+  useEffect(() => {
+    dispatch(loadFromLocalStorage());
+  }, [dispatch]);
+
   // Dynamic table data
   const [tableData, setTableData] = useState([
     {
@@ -339,55 +360,18 @@ const ReportGenerate = () => {
   return (
     <div className="min-h-screen bg-[#111827] text-white">
       {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-800 px-32">
-        <div className="text-2xl font-bold text-blue-500">DO5 Estimator</div>
-        <div className="flex items-center gap-4">
-          <button className="btn btn-circle btn-sm bg-gray-700 border-none">
-            <FaBell className="h-5 w-5" />
-          </button>
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="flex items-center gap-2 cursor-pointer">
-              <div className="avatar">
-                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-                  <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-GR2hUm72vkhHMxYIcHsS1hdVb9A14k.png"
-                    alt="User"
-                    className="rounded-full"
-                    onError={(e) => (e.target.src = '/placeholder-user.jpg')}
-                  />
-                </div>
-              </div>
-              <span>Jeffryan</span>
-              <FaChevronDown className="h-4 w-4" />
-            </div>
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-[#1F2937] rounded-box w-52">
-              <li>
-                <a className="flex items-center gap-2">
-                  <FaCog className="h-5 w-5" />
-                  Setting
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-2 text-red-400">
-                  <FaSignOutAlt className="h-5 w-5" />
-                  Log Out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </header>
+      <UserNavbar userName="Jeffryan" avatarUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-GR2hUm72vkhHMxYIcHsS1hdVb9A14k.png" />
 
       {/* Project Info */}
       <div className="bg-[#1E293B] p-4 border-b border-gray-800">
         <div className="max-w-6xl mx-auto">
           <div className="mb-1">
             <span className="text-gray-400">Project Name: </span>
-            <span className="text-blue-500">Holy Cross Hospital</span>
+            <span className="text-blue-500">{projectName || currentProject?.project_name || 'No Project Selected'}</span>
           </div>
           <div>
             <span className="text-gray-400">Scope of work: </span>
-            <span className="text-gray-300">Lorem ipsum dolor sit amet consectetur.</span>
+            <span className="text-gray-300">{currentProject?.scope || 'Lorem ipsum dolor sit amet consectetur.'}</span>
           </div>
         </div>
       </div>
@@ -409,7 +393,25 @@ const ReportGenerate = () => {
         <div className="mb-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Recent projects</h2>
-            <button className="btn btn-sm btn-ghost text-gray-300">
+            <button
+              className="btn btn-sm btn-ghost text-gray-300"
+              disabled={projectLoading || !projectId}
+              onClick={() => {
+                if (projectLoading || !projectId) return;
+                const allowed = [
+                  'employee_accepted',
+                  'sent_to_vendor',
+                  'completed',
+                ];
+                const status = projectDetails?.status;
+                console.log('Project status:', status);
+                if (allowed.includes(status)) {
+                  navigate('/user_chat');
+                } else {
+                  toast.error('Project Status must be in these three status (employee_accepted, sent_to_vendor, completed)');
+                }
+              }}
+            >
               <FaComment className="h-5 w-5 mr-1" />
               Message Us
             </button>
@@ -419,8 +421,25 @@ const ReportGenerate = () => {
           <div className="overflow-x-auto">
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-medium">Holy Cross Hospital</h3>
-              <button className="btn btn-sm bg-blue-600 hover:bg-blue-700 border-none text-white">
-                Sent to Employee
+              <button
+                className="btn btn-sm bg-blue-600 hover:bg-blue-700 border-none text-white"
+                disabled={isSending}
+                onClick={async () => {
+                  if (!currentProject?.project_id) {
+                    toast.error('No project selected');
+                    return;
+                  }
+                  try {
+                    const res = await sendToEmployee(currentProject.project_id).unwrap();
+                    console.log('Send to Employee response:', res);
+                    toast.success(res.status);
+                  } catch (err) {
+                    toast.error('Failed to send to employee');
+                    console.error(err);
+                  }
+                }}
+              >
+                {isSending ? 'Sending...' : 'Sent to Employee'}
               </button>
             </div>
             <table className="table w-full bg-transparent">
@@ -458,6 +477,7 @@ const ReportGenerate = () => {
         <PackagePlanModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
+          projectId={currentProject?.project_id}
         />
       </main>
     </div>

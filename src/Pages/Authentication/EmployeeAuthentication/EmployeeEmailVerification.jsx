@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-const EmplayeeEmailVerification = () => {
+const employeeEmailVerification = () => {
      const {
         register,
         handleSubmit,
@@ -69,7 +69,7 @@ const onSubmit = async (data) => {
             </div>
 
 
-           <Link to="/emplayee_otp_verify">
+           <Link to="/employee_otp_verify">
                <button
               type="submit"
               className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"
@@ -87,4 +87,4 @@ const onSubmit = async (data) => {
   )
 }
 
-export default EmplayeeEmailVerification
+export default employeeEmailVerification

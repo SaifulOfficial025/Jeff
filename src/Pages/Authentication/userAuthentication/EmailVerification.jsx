@@ -1,25 +1,38 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const EmailVerification = () => {
-     const {
-        register,
-        handleSubmit,
-        formState: { errors }, 
-      } = useForm({
-        defaultValues: {
-          fullName: "",
-          companyName: "",
-          email: "",
-          phone: "",
-          password: "",
-          confirmPassword: "",
-        },
+  const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    setApiError("");
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://10.10.13.60:8000"}/api/users/forgot-password/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: data.email }),
       });
-
-
-const onSubmit = async (data) => {
-   console.log(data)
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Failed to send verification email");
+      }
+      // Store email for next steps
+      localStorage.setItem("reset_email", data.email);
+      navigate("/otp_verify");
+    } catch (err) {
+      setApiError(err.message);
+    }
   };
 
 
@@ -46,7 +59,6 @@ const onSubmit = async (data) => {
           </div>
 
           <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-            
             <div>
               <label className="text-gray-400 text-sm">Email Address</label>
               <input
@@ -67,17 +79,13 @@ const onSubmit = async (data) => {
                 <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
               )}
             </div>
-
-
-           <Link to="/user_otp_verify">
-               <button
+            {apiError && <p className="text-red-500 text-sm mt-2">{apiError}</p>}
+            <button
               type="submit"
               className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"
             >
               Confirm
             </button>
-           </Link>
-  
           </form>
  
         </div>

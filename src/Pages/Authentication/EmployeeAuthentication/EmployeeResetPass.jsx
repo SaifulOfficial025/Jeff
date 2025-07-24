@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 
-const EmplayeeResetPass = () => {
+const employeeResetPass = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -113,7 +113,7 @@ const EmplayeeResetPass = () => {
               )}
             </div>
 
-          <Link to="/emplayee_login">
+          <Link to="/employee_login">
           
             <button
               type="submit"
@@ -131,4 +131,4 @@ const EmplayeeResetPass = () => {
   )
 }
 
-export default EmplayeeResetPass
+export default employeeResetPass

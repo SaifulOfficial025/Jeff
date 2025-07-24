@@ -1,8 +1,10 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 
 const UserOTPVerfication = () => {
+  const navigate = useNavigate();
+  const [apiError, setApiError] = useState("");
   const {
     register,
     handleSubmit,
@@ -58,10 +60,27 @@ const UserOTPVerfication = () => {
   }, [otp]);
 
   const onSubmit = async (data) => {
-    const otpCode = data.otp.join('');
-    console.log('OTP Submitted:', otpCode);
-    // Add your API call here to verify OTP
-    // e.g., await verifyOtp(otpCode);
+    setApiError("");
+    const otpCode = data.otp.join("");
+    const email = localStorage.getItem("reset_email");
+    if (!email) {
+      setApiError("Email not found. Please restart the process.");
+      return;
+    }
+    try {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://10.10.13.60:8000"}/api/users/reset-request-activate/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, otp: otpCode }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        throw new Error(err.detail || "Invalid OTP");
+      }
+      navigate("/reset_password");
+    } catch (err) {
+      setApiError(err.message);
+    }
   };
 
   return (
@@ -88,7 +107,7 @@ const UserOTPVerfication = () => {
 
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} onPaste={handlePaste}>
               <div className="flex justify-between gap-2">
-                {Array.from({ length: 6 }).map((_, index) => (
+                {Array.from({ length: 4 }).map((_, index) => (
                   <input
                     key={index}
                     type="text"
@@ -117,15 +136,13 @@ const UserOTPVerfication = () => {
                   {errors.otp.find((error) => error)?.message || 'Please enter a valid OTP'}
                 </p>
               )}
-
-              <Link to="/user_reset_password">
-                <button
-                  type="submit"
-                  className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"
-                >
-                  Verify OTP
-                </button>
-              </Link>
+              {apiError && <p className="text-red-500 text-sm mt-2">{apiError}</p>}
+              <button
+                type="submit"
+                className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"
+              >
+                Verify OTP
+              </button>
             </form>
           </div>
         </div>

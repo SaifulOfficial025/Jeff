@@ -118,7 +118,7 @@ const EmployeeOTPVerification = () => {
                 </p>
               )}
 
-              <Link to="/emplayee_reset_password">
+              <Link to="/employee_reset_password">
                 <button
                   type="submit"
                   className="btn text-lg font-medium rounded-full bg-blue-500 py-6 shadow-none hover:bg-blue-600 text-white w-full border-none"

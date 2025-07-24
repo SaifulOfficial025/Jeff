@@ -45,7 +45,7 @@ export default function VendorRegistration() {
           navigate("/base_labor_rates");
           break;
         case "employee":
-          navigate("/emplayee_login");
+          navigate("/employee_login");
           break;
         default:
           navigate("/vendor_login"); 
@@ -239,7 +239,7 @@ export default function VendorRegistration() {
 
           <div className="text-center mt-4 text-sm">
             <span className="text-gray-400">Already have an account? </span>
-            <Link to="/login" className="text-blue-500 hover:underline">
+            <Link to="/vendor_login?role=vendor" className="text-blue-500 hover:underline">
               Log In
             </Link>
           </div>

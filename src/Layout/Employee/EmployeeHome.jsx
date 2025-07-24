@@ -1,416 +1,375 @@
 
-// import { MessageCircle } from 'lucide-react'
-// import { AiOutlineMessage } from 'react-icons/ai'
-// import { FaFilePdf, FaShare } from 'react-icons/fa'
-// import { FaRegFilePdf } from 'react-icons/fa6'
-// import { GrDocumentPdf } from 'react-icons/gr'
-// import { HiOutlineUpload } from 'react-icons/hi'
-// import { IoIosShareAlt } from 'react-icons/io'
-// import { RiMessage3Fill, RiShareForwardFill } from 'react-icons/ri'
-// import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-
-// const EmployeeHome = () => {
-
-
-
-//   const recentUsers = [
-//     {
-//       id: "02",
-//       name: "Mikel Jack",
-//       email: "mikel@gmail.com",
-//       role: "Supervisor",
-//       country: "United States",
-//       time: "12:00 AM",
-//     },
-//     {
-//       id: "03",
-//       name: "Mikel Jack",
-//       email: "mikel@gmail.com",
-//       role: "Supervisor",
-//       country: "United States",
-//       time: "12:00 AM",
-//     },
-//     {
-//       id: "04",
-//       name: "Mikel Jack",
-//       email: "mikel@gmail.com",
-//       role: "Supervisor",
-//       country: "United States",
-//       time: "12:00 AM",
-//     },
-//     {
-//       id: "05",
-//       name: "Mikel Jack",
-//       email: "mikel@gmail.com",
-//       role: "Supervisor",
-//       country: "United States",
-//       time: "12:00 AM",
-//     },
-//     {
-//       id: "06",
-//       name: "Mikel Jack",
-//       email: "mikel@gmail.com",
-//       role: "Supervisor",
-//       country: "United States",
-//       time: "12:00 AM",
-//     },
-//   ]
-
-//   const vendors = Array(7).fill({
-//   name: "Mikel Jack",
-//   avatar: "https://randomuser.me/api/portraits/men/32.jpg", // Replace with actual image if needed
-// });
-
-//   return (
-//     <section className="space-y-8">
-
-//       <div className="grid md:grid-cols-4 grid-cols-1 gap-10">
-//         <div className="bg-[#092A72] p-5 rounded-lg">
-//           <img
-//             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734166/Group_2147225393_unffbi.png"
-//             alt="Users icon"
-//           />
-//           <div className="mt-10">
-//             <h1 className="text-[24px] text-white mb-2">Total User</h1>
-//             <h1 className="text-[#A1C2FD] text-[32px] font-semibold">55,789</h1>
-//           </div>
-//         </div>
-
-//         <div className="bg-[#092A72] p-5 rounded-lg">
-//           <img
-//             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734652/Group_2147225398_gymqme.png"
-//             alt="Revenue icon"
-//           />
-//           <div className="mt-10">
-//             <h1 className="text-[24px] text-white mb-2">Total User</h1>
-//             <h1 className="text-[#A1C2FD] text-[32px] font-semibold">55,789</h1>
-//           </div>
-//         </div>
-
-//         <div className="bg-[#092A72] p-5 rounded-lg">
-//           <img
-//             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734698/Group_2147225401_a2ey6r.png"
-//             alt="Products icon"
-//           />
-//           <div className="mt-10">
-//             <h1 className="text-[24px] text-white mb-2">Total User</h1>
-//             <h1 className="text-[#A1C2FD] text-[32px] font-semibold">55,789</h1>
-//           </div>
-//         </div>
-
-//         <div className="bg-[#092A72] p-5 rounded-lg">
-//           <img
-//             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734734/Group_2147225403_rtyhkz.png"
-//             alt="Orders icon"
-//           />
-//           <div className="mt-10">
-//             <h1 className="text-[24px] text-white mb-2">Total User</h1>
-//             <h1 className="text-[#A1C2FD] text-[32px] font-semibold">55,789</h1>
-//           </div>
-//         </div>
-//       </div>
-
-  
-
-//       {/* Recently Joined Table */}
-//       <div className="bg-[#161D27] border border-gray-500/60 rounded-lg p-5">
-//         <h2 className="text-[#1471FF] text-[28px] font-semibold mb-6">All Request</h2>
-//         <div className="overflow-x-auto">
-//           <table className="table w-full">
-//             <thead>
-//               <tr className="border-b border-gray-800">
-//                 <th className="text-gray-400 font-medium bg-transparent">Name</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">User ID</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">File</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">Status</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">Upload Docs</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">Chat</th>
-//                 <th className="text-gray-400 font-medium bg-transparent">Share</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {recentUsers.map((user) => (
-//                 <tr key={user.id} className="border-b border-gray-800 hover:bg-gray-800/30 cursor-pointer">
-//                      <td className="bg-transparent">
-//                     <div className="flex items-center gap-2">
-//                       <div className="avatar">
-//   <div className="w-12 rounded-full">
-//     <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
-//   </div>
-// </div>
-//                       <span className="text-gray-300">{user.name}</span>
-//                     </div>
-//                   </td>
-//                   <td className="text-gray-300 bg-transparent">{user.id}</td>
-                 
-//                   <td className="text-gray-300 bg-transparent"><FaRegFilePdf  size={24} className='text-blue-600' /></td>
-//                   <td className="text-gray-300 bg-transparent">{user.role}</td>
-//                   <td className="text-gray-300 bg-transparent"><HiOutlineUpload className='text-blue-600'  size={24}/></td>
-//                   <td className="text-gray-300 bg-transparent"><RiMessage3Fill size={24} /></td>
-//                   <td className="text-gray-300 bg-transparent">
-//                         <button className='cursor-pointer' onClick={()=>document.getElementById('my_modal_3').showModal()}><RiShareForwardFill size={24}/></button>
-//                   <dialog id="my_modal_3" className="modal ">
-//                     <div className="modal-box bg-gray-900 border border-gray-500">
-//                         <form method="dialog">
-//                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-//                         </form>
-//                         <h3 className="font-bold text-lg">Hello!</h3>
-//                         <div className="min-h-screen bg-[#0A1540] text-white flex justify-center items-center p-4">
-//       <div className="w-[600px]">
-//         <h2 className="text-2xl font-semibold text-center mb-6">Share To Vendor</h2>
-//         <input
-//           type="text"
-//           placeholder="Search vendor......"
-//           className="input input-bordered w-full rounded-full mb-6 bg-[#0F1E50] text-white placeholder-gray-400"
-//         />
-//         <div className="space-y-4">
-//           {vendors.map((vendor, index) => (
-//             <div
-//               key={index}
-//               className="flex items-center justify-between bg-transparent"
-//             >
-//               <div className="flex items-center space-x-4">
-//                 <img
-//                   src={vendor.avatar}
-//                   alt={vendor.name}
-//                   className="w-10 h-10 rounded-full"
-//                 />
-//                 <span className="font-medium">{vendor.name}</span>
-//               </div>
-//               <button className="btn btn-primary rounded-full px-4 min-h-8 h-8">
-//                 Send
-//               </button>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </div>
-//                     </div>
-//                 </dialog>
-
-//                   </td>
-
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </section>
-//   )
-// }
-
-// export default EmployeeHome
-
 import { FaRegFilePdf } from 'react-icons/fa6';
 import { HiOutlineUpload } from 'react-icons/hi';
 import { RiMessage3Fill, RiShareForwardFill } from 'react-icons/ri';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { 
+  fetchEmployeeStats, 
+  fetchEmployeeDashboard, 
+  uploadEmployeeFile, 
+  fetchVendorList, 
+  sendToVendor, 
+  assignToSelf 
+} from '../../redux/features/employeeSlice';
+import { FileText, Upload, MessageSquare, Share2 } from 'lucide-react';
+import toast, { Toaster } from 'react-hot-toast';
 
 const EmployeeHome = () => {
-  const recentUsers = [
-    {
-      id: '02',
-      name: 'Mikel Jack',
-      email: 'mikel@gmail.com',
-      role: 'Supervisor',
-      country: 'United States',
-      time: '12:00 AM',
-    },
-    {
-      id: '03',
-      name: 'Jane Doe',
-      email: 'jane@gmail.com',
-      role: 'Manager',
-      country: 'Canada',
-      time: '1:00 AM',
-    },
-    {
-      id: '04',
-      name: 'John Smith',
-      email: 'john@gmail.com',
-      role: 'Developer',
-      country: 'United Kingdom',
-      time: '2:00 AM',
-    },
-    {
-      id: '05',
-      name: 'Emily Brown',
-      email: 'emily@gmail.com',
-      role: 'Analyst',
-      country: 'Australia',
-      time: '3:00 AM',
-    },
-    {
-      id: '06',
-      name: 'David Wilson',
-      email: 'david@gmail.com',
-      role: 'Designer',
-      country: 'Germany',
-      time: '4:00 AM',
-    },
-  ];
+  const dispatch = useDispatch();
+  const { stats, loading, dashboardData, vendors, uploading, vendorLoading } = useSelector((state) => state.employee);
+  const [selectedFiles, setSelectedFiles] = useState({});
+  const [showAcceptModal, setShowAcceptModal] = useState(null);
+  const fileInputRefs = useRef({});
 
-  const vendors = [
-    {
-      name: 'Vendor One',
-      avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    },
-    {
-      name: 'Vendor Two',
-      avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
-    },
-    {
-      name: 'Vendor Three',
-      avatar: 'https://randomuser.me/api/portraits/men/45.jpg',
-    },
-    {
-      name: 'Vendor Four',
-      avatar: 'https://randomuser.me/api/portraits/women/65.jpg',
-    },
-    {
-      name: 'Vendor Five',
-      avatar: 'https://randomuser.me/api/portraits/men/78.jpg',
-    },
-  ];
+  useEffect(() => {
+    dispatch(fetchEmployeeStats());
+    dispatch(fetchEmployeeDashboard());
+  }, [dispatch]);
+
+  const handleFileSelect = (projectId, files) => {
+    setSelectedFiles(prev => ({
+      ...prev,
+      [projectId]: Array.from(files)
+    }));
+  };
+
+  const handleFileUpload = async (projectId) => {
+    const files = selectedFiles[projectId];
+    if (!files || files.length === 0) {
+      toast.error('Please select files to upload');
+      return;
+    }
+
+    try {
+      const result = await dispatch(uploadEmployeeFile({ id: projectId, files }));
+      if (result.type === 'employee/uploadFile/fulfilled') {
+        toast.success(result.payload.message);
+        setSelectedFiles(prev => ({
+          ...prev,
+          [projectId]: []
+        }));
+        // Clear the file input
+        if (fileInputRefs.current[projectId]) {
+          fileInputRefs.current[projectId].value = '';
+        }
+        // Refresh dashboard data
+        dispatch(fetchEmployeeDashboard());
+      }
+    } catch {
+      toast.error('Failed to upload files');
+    }
+  };
+
+  const handleShareToVendor = async (projectId) => {
+    await dispatch(fetchVendorList(projectId));
+    document.getElementById(`modal_${projectId}`).showModal();
+  };
+
+  const handleSendToVendor = async (projectId, vendorId) => {
+    try {
+      const result = await dispatch(sendToVendor({ projectId, vendorId }));
+      if (result.type === 'employee/sendToVendor/fulfilled') {
+        toast.success(`Project sent to vendor successfully. Status: ${result.payload.status}`);
+        document.getElementById(`modal_${projectId}`).close();
+        dispatch(fetchEmployeeDashboard());
+      }
+    } catch {
+      toast.error('Failed to send to vendor');
+    }
+  };
+
+  const handleAcceptProject = async (projectId) => {
+    try {
+      const result = await dispatch(assignToSelf(projectId));
+      if (result.type === 'employee/assignToSelf/fulfilled') {
+        toast.success(`Project accepted successfully. Status: ${result.payload.status}`);
+        setShowAcceptModal(null);
+        dispatch(fetchEmployeeDashboard());
+      }
+    } catch {
+      toast.error('Failed to accept project');
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'accept':
+        return 'text-green-400';
+      case 'taken':
+      case 'employee_accepted':
+        return 'text-blue-400';
+      default:
+        return 'text-gray-400';
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status?.toLowerCase()) {
+      case 'accept':
+        return 'Accept';
+      case 'taken':
+      case 'employee_accepted':
+        return 'Taken';
+      default:
+        return status;
+    }
+  };
+
+
+
+
 
   return (
-    <section className="space-y-8">
+    <div className="space-y-8">
+      <section className="space-y-8">
+      {/* Stats Start */}
       <div className="grid md:grid-cols-4 grid-cols-1 gap-10">
         <div className="bg-[#092A72] p-5 rounded-lg">
           <img
             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734166/Group_2147225393_unffbi.png"
-            alt="Users icon"
+            alt="New Requests icon"
           />
           <div className="mt-10">
-            <h1 className="text-[24px] text-white mb-2">Total Users</h1>
-            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">55,789</h1>
+            <h1 className="text-[24px] text-white mb-2">New Requests</h1>
+            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">{loading ? '...' : stats.new_request}</h1>
           </div>
         </div>
         <div className="bg-[#092A72] p-5 rounded-lg">
           <img
             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734652/Group_2147225398_gymqme.png"
-            alt="Revenue icon"
+            alt="Total Requests icon"
           />
           <div className="mt-10">
-            <h1 className="text-[24px] text-white mb-2">Total Revenue</h1>
-            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">$1,234,567</h1>
+            <h1 className="text-[24px] text-white mb-2">Total Requests</h1>
+            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">{loading ? '...' : stats.total_request}</h1>
           </div>
         </div>
         <div className="bg-[#092A72] p-5 rounded-lg">
           <img
             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734698/Group_2147225401_a2ey6r.png"
-            alt="Products icon"
+            alt="Completed icon"
           />
           <div className="mt-10">
-            <h1 className="text-[24px] text-white mb-2">Total Products</h1>
-            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">1,789</h1>
+            <h1 className="text-[24px] text-white mb-2">Completed</h1>
+            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">{loading ? '...' : stats.request_complete}</h1>
           </div>
         </div>
         <div className="bg-[#092A72] p-5 rounded-lg">
           <img
             src="https://res.cloudinary.com/dpi0t9wfn/image/upload/v1747734734/Group_2147225403_rtyhkz.png"
-            alt="Orders icon"
+            alt="Incomplete icon"
           />
           <div className="mt-10">
-            <h1 className="text-[24px] text-white mb-2">Total Orders</h1>
-            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">23,456</h1>
+            <h1 className="text-[24px] text-white mb-2">Incomplete</h1>
+            <h1 className="text-[#A1C2FD] text-[32px] font-semibold">{loading ? '...' : stats.incomplete_request}</h1>
           </div>
         </div>
       </div>
+      {/* Stats End */}
+
+
 
       {/* Recently Joined Table */}
       <div className="bg-[#161D27] border border-gray-500/60 rounded-lg p-5">
         <h2 className="text-[#1471FF] text-[28px] font-semibold mb-6">All Requests</h2>
         <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className="border-b border-gray-800">
-                <th className="text-gray-400 font-medium bg-transparent">Name</th>
-                <th className="text-gray-400 font-medium bg-transparent">User ID</th>
-                <th className="text-gray-400 font-medium bg-transparent">File</th>
-                <th className="text-gray-400 font-medium bg-transparent">Status</th>
-                <th className="text-gray-400 font-medium bg-transparent">Upload Docs</th>
-                <th className="text-gray-400 font-medium bg-transparent">Chat</th>
-                <th className="text-gray-400 font-medium bg-transparent">Share</th>
+          <table className="min-w-full bg-gray-800 border border-gray-700 rounded-lg">
+          <thead>
+            <tr className="bg-gray-700 text-gray-300 uppercase text-sm leading-normal">
+              <th className="py-3 px-6 text-left border-b border-gray-700 rounded-tl-lg">Name</th>
+              <th className="py-3 px-6 text-left border-b border-gray-700">User ID</th>
+              <th className="py-3 px-6 text-left border-b border-gray-700">File</th>
+              <th className="py-3 px-6 text-left border-b border-gray-700">Status</th>
+              <th className="py-3 px-6 text-left border-b border-gray-700">Received Docs</th>
+              <th className="py-3 px-6 text-left border-b border-gray-700">Chat</th> {/* Moved Chat header */}
+              <th className="py-3 px-6 text-left border-b border-gray-700">Upload Docs</th> {/* Moved Upload Docs header */}
+              <th className="py-3 px-6 text-left border-b border-gray-700 rounded-tr-lg">Share to Vendor</th>
+            </tr>
+          </thead>
+          <tbody className="text-gray-200 text-sm font-light">
+            {loading ? (
+              <tr>
+                <td colSpan="8" className="text-center py-4">Loading...</td>
               </tr>
-            </thead>
-            <tbody>
-              {recentUsers.map((user) => (
-                <tr
-                  key={user.id}
-                  className="border-b border-gray-800 hover:bg-gray-800/30 cursor-pointer"
-                >
-                  <td className="bg-transparent">
-                    <div className="flex items-center gap-2">
-                      <div className="avatar">
-                        <div className="w-12 rounded-full">
-                          <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" alt="User avatar" />
-                        </div>
+            ) : dashboardData && dashboardData.length > 0 ? (
+              dashboardData.map((project) => (
+              <tr
+                key={project.file.id}
+                className="border-b border-gray-800 hover:bg-gray-800/30 cursor-pointer"
+              >
+                <td className="py-3 px-6 text-left whitespace-nowrap border-b border-gray-700">
+                  <div className="flex items-center gap-2">
+                    <div className="avatar">
+                      <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-lg">
+                        {project.user_name?.charAt(0) || 'U'}
                       </div>
-                      <span className="text-gray-300">{user.name}</span>
                     </div>
-                  </td>
-                  <td className="text-gray-300 bg-transparent">{user.id}</td>
-                  <td className="text-gray-300 bg-transparent">
-                    <FaRegFilePdf size={24} className="text-blue-600" />
-                  </td>
-                  <td className="text-gray-300 bg-transparent">{user.role}</td>
-                  <td className="text-gray-300 bg-transparent">
-                    <HiOutlineUpload className="text-blue-600" size={24} />
-                  </td>
-                  <td className="text-gray-300 bg-transparent">
-                    <RiMessage3Fill size={24} />
-                  </td>
-                  <td className="text-gray-300 bg-transparent">
-                    <button
-                      className="cursor-pointer"
-                      onClick={() => document.getElementById(`modal_${user.id}`).showModal()}
+                    <span className="text-gray-300">{project.user_name}</span>
+                  </div>
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">{project.user_id}</td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  {project.file?.files ? (
+                    <a 
+                      href={project.file.files} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-400"
                     >
-                      <RiShareForwardFill size={24} />
+                      <FileText size={24} className="text-blue-600" />
+                    </a>
+                  ) : (
+                    <FileText size={24} className="text-gray-600" />
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  {project.status === 'accept' ? (
+                    <button
+                      className={`${getStatusColor(project.status)} font-medium hover:underline`}
+                      onClick={() => setShowAcceptModal(project.project_id)}
+                    >
+                      {getStatusText(project.status)}
                     </button>
-                    <dialog id={`modal_${user.id}`} className="modal">
-                      <div className="modal-box bg-gray-900 border border-gray-500 max-w-lg p-6">
-                        <form method="dialog">
-                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-                            ✕
-                          </button>
-                        </form>
-                        <h3 className="font-bold text-lg mb-4">Share To Vendor</h3>
-                        <input
-                          type="text"
-                          placeholder="Search vendor..."
-                          className="input input-bordered w-full rounded-full mb-4 bg-[#0F1E50] text-white placeholder-gray-400"
-                        />
-                        <div className="space-y-3 max-h-[650px] max-w-[500px] overflow-y-auto">
-                          {vendors.map((vendor, index) => (
+                  ) : (
+                    <span className={getStatusColor(project.status)}>
+                      {getStatusText(project.status)}
+                    </span>
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  {project.received_docs ? (
+                    <a 
+                      href={project.received_docs} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-green-500 hover:text-green-400"
+                    >
+                      <FileText size={24} className="text-green-500" />
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">-</span>
+                  )}
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  <MessageSquare size={24} className="text-gray-400 hover:text-blue-400 cursor-pointer" />
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="file"
+                      multiple
+                      ref={el => fileInputRefs.current[project.project_id] = el}
+                      onChange={(e) => handleFileSelect(project.project_id, e.target.files)}
+                      className="hidden"
+                      id={`file-input-${project.project_id}`}
+                    />
+                    <label 
+                      htmlFor={`file-input-${project.project_id}`}
+                      className="cursor-pointer"
+                    >
+                      <Upload className="text-blue-600 hover:text-blue-400" size={24} />
+                    </label>
+                    {selectedFiles[project.project_id]?.length > 0 && (
+                      <button
+                        onClick={() => handleFileUpload(project.project_id)}
+                        disabled={uploading}
+                        className="ml-2 px-2 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700 disabled:opacity-50"
+                      >
+                        {uploading ? 'Uploading...' : 'Upload'}
+                      </button>
+                    )}
+                  </div>
+                </td>
+                <td className="py-3 px-6 text-left border-b border-gray-700">
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => handleShareToVendor(project.project_id)}
+                  >
+                    <Share2 size={24} className="text-gray-400 hover:text-blue-400" />
+                  </button>
+                  <dialog id={`modal_${project.project_id}`} className="modal">
+                    <div className="modal-box bg-gray-900 border border-gray-500 max-w-lg p-6">
+                      <form method="dialog">
+                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                          ✕
+                        </button>
+                      </form>
+                      <h3 className="font-bold text-lg mb-4">Share To Vendor</h3>
+                      <input
+                        type="text"
+                        placeholder="Search vendor..."
+                        className="input input-bordered w-full rounded-full mb-4 bg-[#0F1E50] text-white placeholder-gray-400"
+                      />
+                      <div className="space-y-3 max-h-[650px] max-w-[500px] overflow-y-auto">
+                        {vendorLoading ? (
+                          <div className="text-center py-4">Loading vendors...</div>
+                        ) : vendors.length > 0 ? (
+                          vendors.map((vendor) => (
                             <div
-                              key={index}
+                              key={vendor.id}
                               className="flex items-center justify-between p-2 hover:bg-gray-800/50 rounded"
                             >
                               <div className="flex items-center space-x-3">
-                                <img
-                                  src={vendor.avatar}
-                                  alt={vendor.name}
-                                  className="w-8 h-8 rounded-full"
-                                />
+                                <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-white text-sm">
+                                  {vendor.name?.charAt(0) || 'V'}
+                                </div>
                                 <span className="font-medium text-gray-200">{vendor.name}</span>
                               </div>
-                              <button className="btn btn-primary btn-sm rounded-full px-4">
+                              <button 
+                                className="btn btn-primary btn-sm rounded-full px-4"
+                                onClick={() => handleSendToVendor(project.project_id, vendor.id)}
+                              >
                                 Send
                               </button>
                             </div>
-                          ))}
-                        </div>
+                          ))
+                        ) : (
+                          <div className="text-center py-4 text-gray-400">No vendors available</div>
+                        )}
                       </div>
-                    </dialog>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    </div>
+                  </dialog>
+                </td>
+              </tr>
+            ))
+            ) : (
+              <tr>
+                <td colSpan="8" className="text-center py-4">No data available</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
         </div>
       </div>
-    </section>
+
+      {/* Accept Project Confirmation Modal */}
+      {showAcceptModal && (
+        <dialog open className="modal">
+          <div className="modal-box bg-gray-900 border border-gray-500">
+            <h3 className="font-bold text-lg mb-4">Accept Project</h3>
+            <p className="mb-6">Are you sure you want to accept this project?</p>
+            <div className="modal-action">
+              <button 
+                className="btn btn-primary"
+                onClick={() => handleAcceptProject(showAcceptModal)}
+              >
+                Yes
+              </button>
+              <button 
+                className="btn btn-outline"
+                onClick={() => setShowAcceptModal(null)}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
+
+      <Toaster position="top-right" />
+      </section>
+    </div>
   );
 };
 

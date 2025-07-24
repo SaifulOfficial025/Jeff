@@ -1,4 +1,8 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+// Send project to employee
+// This endpoint should be inside the endpoints object below
 
 export const baseApi = createApi({
     reducerPath: 'baseApi',
@@ -17,14 +21,92 @@ export const baseApi = createApi({
     tagTypes: ["users", "employee", "vendors"],
     endpoints: (builder) => ({
 
-        //create user
+    // Get project details by ID
+    getProjectDetails: builder.query({
+      query: (projectId) => `/api/projects/${projectId}/`,
+    }),
+
+    // Get chat rooms
+    getChatRooms: builder.query({
+      query: () => '/api/chat/chat-rooms/',
+    }),
+
+    // Get chat room details
+    getChatRoomDetails: builder.query({
+      query: (chatRoomId) => `/api/chat/chat-rooms/${chatRoomId}/`,
+    }),
+
+    // Get messages for a chat room
+    getChatMessages: builder.query({
+      query: (chatRoomId) => `/api/chat/chat-rooms/${chatRoomId}/messages/`,
+    }),
+
+    // Vendor dashboard table data
+    getVendorDashboard: builder.query({
+      query: () => '/api/projects/vendor_dashboard/',
+    }),
+
+    // Upload vendor file
+    uploadVendorFile: builder.mutation({
+      query: ({ projectId, files }) => {
+        const formData = new FormData();
+        files.forEach(file => formData.append('files', file));
+        return {
+          url: `/api/projects/${projectId}/upload_vendor_file/`,
+          method: 'POST',
+          body: formData,
+        };
+      },
+    }),
+
+    // Vendor stats
+    getVendorStats: builder.query({
+      query: () => '/api/projects/counts_vendor/',
+    }),
+      // Get user profile
+      getProfile: builder.query({
+        query: () => '/api/users/profile/',
+      }),
+
+      // Update user profile
+      updateProfile: builder.mutation({
+        query: (profileData) => ({
+          url: '/api/users/update-profile/',
+          method: 'PUT',
+          body: profileData,
+        }),
+      }),
+
+      // Update vendor profile
+      updateVendorProfile: builder.mutation({
+        query: (profileData) => ({
+          url: '/api/users/update-vendor-profile/',
+          method: 'PUT',
+          body: profileData,
+        }),
+      }),
+
+      // Send project to employee
+      sendToEmployee: builder.mutation({
+        query: (projectId) => ({
+          url: `/api/projects/${projectId}/send_to_employee/`,
+          method: 'POST',
+        }),
+      }),
+
+      // Get latest project
+      getLatestProject: builder.query({
+        query: () => '/api/projects/latest_project/',
+      }),
+
+      //create user
       createUser: builder.mutation({
         query: ({ role, ...userData }) => ({
-                url: `/api/users/signup/?role=${role}`,
-                method: "POST",
-                body: userData,
-                providesTags: ['users'],
-            }),
+          url: `/api/users/signup/?role=${role}`,
+          method: "POST",
+          body: userData,
+          providesTags: ['users'],
+        }),
         }),
 
         
@@ -131,7 +213,7 @@ export const baseApi = createApi({
 
     }),
 
-    //block dendor
+    //block vendor
       blockVendor: builder.mutation({
       query: (id)=>({
         url: `/api/super-admin/vendors/${id}/block/`,
@@ -141,6 +223,23 @@ export const baseApi = createApi({
 
     }),
 
+    // Create project
+    createProject: builder.mutation({
+      query: (projectData) => ({
+        url: '/api/projects/',
+        method: 'POST',
+        body: projectData,
+      }),
+    }),
+
+    // Payment
+    createPayment: builder.mutation({
+      query: (paymentData) => ({
+        url: '/api/payments/payment/',
+        method: 'POST',
+        body: paymentData,
+      }),
+    }),
 
 
 
@@ -188,6 +287,34 @@ export const {
     useBlockVendorMutation,
 
 
- } = baseApi
+
+    //get latest project
+    useGetLatestProjectQuery,
+    // vendor stats
+    useGetVendorStatsQuery,
+    // vendor dashboard
+    useGetVendorDashboardQuery,
+    useUploadVendorFileMutation,
+
+    //send to employee
+    useSendToEmployeeMutation,
+
+    //payment
+    useCreatePaymentMutation,
+
+    //create project
+    useCreateProjectMutation,
+
+    // user profile
+    useGetProfileQuery,
+    useUpdateProfileMutation,
+    useUpdateVendorProfileMutation,
+    useGetProjectDetailsQuery,
+    
+    // chat
+    useGetChatRoomsQuery,
+    useGetChatRoomDetailsQuery,
+    useGetChatMessagesQuery,
+} = baseApi
 
 

@@ -34,6 +34,7 @@ const UserLogin = () => {
 
               localStorage.setItem("access_token", loggedInResponse?.access_token);
               localStorage.setItem("refresh_token", loggedInResponse?.refresh_token);
+              localStorage.setItem("user_role", "User"); // Save user role explicitly
 
               toast.success("You have successfully logged in.");
 
@@ -124,7 +125,7 @@ const UserLogin = () => {
               </div>
 
               <div className='mb-5 text-white text-sm underline flex items-center justify-end cursor-pointer'>
-                <Link to='/user_email_verification'>Forget Password</Link>
+                <Link to='/email_verification'>Forget Password</Link>
               </div>
 
               <button
@@ -155,7 +156,7 @@ const UserLogin = () => {
 
             <div className="text-center mt-4 text-sm">
               <span className="text-gray-400">Already have an account? </span>
-              <Link to="/login" className="text-blue-500 hover:underline">
+              <Link to="/sign_up?role=user" className="text-blue-500 hover:underline">
                 Sign Up
               </Link>
             </div>

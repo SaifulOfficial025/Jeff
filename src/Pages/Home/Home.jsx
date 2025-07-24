@@ -6,12 +6,16 @@ import How_works from "./How_works"
 const Home = () => {
   return (
     <div>
-  
-      <About/>
-      <How_works/>
-      <Contact/>
+      <section id="about">
+        <About/>
+      </section>
+      <section id="workflow">
+        <How_works/>
+      </section>
+      <section id="contact">
+        <Contact/>
+      </section>
       <Footer/>
-    
     </div>
   )
 }

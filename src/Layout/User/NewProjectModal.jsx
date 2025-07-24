@@ -1,16 +1,102 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'sonner';
+import { useCreateProjectMutation } from '../../redux/features/baseApi';
+import { 
+  setProjectName, 
+  setProjectDescription, 
+  setCurrentProject, 
+  addProject,
+  clearProjectData 
+} from '../../redux/features/projectSlice';
 
 const NewProjectModal = ({ isOpen, onClose, onSubmit }) => {
-  const [projectName, setProjectName] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
+  const [localProjectName, setLocalProjectName] = useState('');
+  const [localProjectDescription, setLocalProjectDescription] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { uploadedFiles } = useSelector((state) => state.project);
+  const [createProject] = useCreateProjectMutation();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (projectName.trim()) {
-      onSubmit({ name: projectName, description: projectDescription });
-      setProjectName('');
-      setProjectDescription('');
+    
+    if (!localProjectName.trim()) {
+      toast.error('Project name is required!');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Save to Redux and localStorage immediately
+      console.log('Saving project name:', localProjectName);
+      console.log('Saving project description:', localProjectDescription);
+      
+      dispatch(setProjectName(localProjectName));
+      dispatch(setProjectDescription(localProjectDescription));
+
+      // Verify it was saved
+      console.log('localStorage projectName:', localStorage.getItem('projectName'));
+      console.log('localStorage projectDescription:', localStorage.getItem('projectDescription'));
+
+      // Prepare FormData for API call
+      const formData = new FormData();
+      formData.append('name', localProjectName);
+      formData.append('scope', ''); // Default blank as per requirement
+      formData.append('project_description', localProjectDescription);
+
+      // Add uploaded files to FormData
+      uploadedFiles.forEach((file) => {
+        // Convert base64 back to File object for API
+        const byteCharacters = atob(file.data.split(',')[1]);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: file.type });
+        const fileObj = new File([blob], file.name, { type: file.type });
+        
+        formData.append('user_files', fileObj);
+      });
+
+      // Try to call API
+      try {
+        const result = await createProject(formData).unwrap();
+        
+        // Save the API response to Redux and localStorage
+        dispatch(setCurrentProject(result));
+        dispatch(addProject(result));
+        
+        toast.success('Project created successfully!');
+      } catch (apiError) {
+        console.error('API call failed:', apiError);
+        // Even if API fails, we still have the data saved locally
+        toast.success('Project data saved locally! (API connection issue)');
+      }
+      
+      // Reset form
+      setLocalProjectName('');
+      setLocalProjectDescription('');
+      
+      // Close modal
+      onClose();
+      
+      // Call parent onSubmit for backward compatibility
+      onSubmit({ name: localProjectName, description: localProjectDescription });
+      
+      // Navigate to report generate page
+      navigate('/project_report_generate');
+      
+    } catch (error) {
+      console.error('Project creation failed:', error);
+      toast.error('Failed to save project data. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -27,8 +113,8 @@ const NewProjectModal = ({ isOpen, onClose, onSubmit }) => {
               type="text"
               placeholder="Enter project name"
               className="input input-bordered w-full bg-[#111827] text-white border-gray-600"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={localProjectName}
+              onChange={(e) => setLocalProjectName(e.target.value)}
               required
             />
           </div>
@@ -39,9 +125,9 @@ const NewProjectModal = ({ isOpen, onClose, onSubmit }) => {
             <textarea
               placeholder="Enter project description"
               className="textarea textarea-bordered w-full bg-[#111827] text-white border-gray-600"
-              value={projectDescription}
+              value={localProjectDescription}
               rows={5}
-              onChange={(e) => setProjectDescription(e.target.value)}
+              onChange={(e) => setLocalProjectDescription(e.target.value)}
             />
           </div>
           <div className="modal-action">
@@ -52,11 +138,13 @@ const NewProjectModal = ({ isOpen, onClose, onSubmit }) => {
             >
               Cancel
             </button>
-            <Link to='/project_report_generate'>
-                <button type="submit" className="btn shadow-none bg-[#2664EA] text-white border-none hover:bg-blue-700">
-              Submit
+            <button 
+              type="submit" 
+              className="btn shadow-none bg-[#2664EA] text-white border-none hover:bg-blue-700"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Creating...' : 'Submit'}
             </button>
-            </Link>
           </div>
         </form>
       </div>

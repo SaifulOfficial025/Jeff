@@ -7,7 +7,7 @@ import {
   useGetChatMessagesQuery,
 } from "../../redux/features/baseApi";
 
-export default function VendorChat() {
+export default function UserChat() {
   const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedChatRoomId, setSelectedChatRoomId] = useState(null);
@@ -164,7 +164,7 @@ export default function VendorChat() {
   }, [localMessages, selectedChatRoomId]);
 
   return (
-    <div className="flex  h-[85vh] bg-[#121212] text-white">
+    <div className="flex h-screen bg-[#121212] text-white">
       {/* Sidebar */}
       <div className="w-64 border-r border-gray-800 flex flex-col">
         <div className="p-4 border-b border-gray-800 flex justify-between items-center">

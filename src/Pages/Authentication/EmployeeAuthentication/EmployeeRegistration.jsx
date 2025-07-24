@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useCreateUserMutation } from "../../../redux/features/baseApi";
 
-export default function EmplayeeRegistration() {
+export default function employeeRegistration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ export default function EmplayeeRegistration() {
       console.log("error", error)
     }
 
-    navigate("/emplayee_login")
+    navigate("/employee_login")
     
   };
 
@@ -215,7 +215,7 @@ export default function EmplayeeRegistration() {
 
           <div className="text-center mt-4 text-sm">
             <span className="text-gray-400">Already have an account? </span>
-            <Link to="/login" className="text-blue-500 hover:underline">
+            <Link to="/employee_login?role=employee" className="text-blue-500 hover:underline">
               Log In
             </Link>
           </div>

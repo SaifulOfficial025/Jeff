@@ -58,7 +58,7 @@ const SelectLoginPage = () => {
 
             <Link 
             to={{
-                 pathname: '/emplayee_login',
+                 pathname: '/employee_login',
                 search: '?role=employee' }}
             className="w-full">
               <button

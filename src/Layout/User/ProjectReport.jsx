@@ -1,159 +1,37 @@
-// import { LogOut } from "lucide-react";
-// import { IoSettings } from "react-icons/io5";
-// import { LuMessageSquareText } from "react-icons/lu";
 
-// export default function ProjectReport() {
-//   return (
-//     <div className="min-h-screen bg-[#111827] text-white">
-//       {/* Header */}
-//       <header className="flex justify-between items-center p-4 border-b border-gray-800 px-32">
-//         <div className="text-2xl font-bold text-blue-500">DO5 Estimator</div>
-//         <div className="flex items-center gap-4">
-//           <button className="btn btn-circle btn-sm bg-gray-700 border-none">
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               className="h-5 w-5"
-//               fill="none"
-//               viewBox="0 0 24 24"
-//               stroke="currentColor"
-//             >
-//               <path
-//                 strokeLinecap="round"
-//                 strokeLinejoin="round"
-//                 strokeWidth={2}
-//                 d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-//               />
-//             </svg>
-//           </button>
-//           <div className="dropdown dropdown-end">
-//             <div tabIndex={0} role="button" className="flex items-center gap-2 cursor-pointer">
-//               <div className="avatar">
-//                 <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-//                   <img
-//                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-c3qyUdu68ssiiDJdtPgIa6kdenTxUQ.png"
-//                     alt="User"
-//                     className="rounded-full"
-//                   />
-//                 </div>
-//               </div>
-//               <span>Jeffryan</span>
-//               <svg
-//                 xmlns="http://www.w3.org/2000/svg"
-//                 className="h-4 w-4"
-//                 fill="none"
-//                 viewBox="0 0 24 24"
-//                 stroke="currentColor"
-//               >
-//                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-//               </svg>
-//             </div>
-//             <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-[#1F2937] rounded-box w-52">
-//               <li>
-//                 <a className="flex items-center gap-2">
-//                  <IoSettings size={20} /> 
-//                   Setting
-//                 </a>
-//               </li>
-//               <li>
-//                 <a className="flex items-center gap-2 text-red-400">
-//                    <LogOut size={20} />
-//                   Log Out
-//                 </a>
-//               </li>
-//             </ul>
-//           </div>
-//         </div>
-//       </header>
-
-//       {/* Main Content */}
-//       <main className="max-w-4xl mx-auto py-8 px-4">
-//         {/* Generate Report Card */}
-//         <div className="bg-[#1E293B] rounded-lg p-6 mb-8 text-center">
-//           <h2 className="text-2xl font-semibold mb-4">Generate Complete Project Report</h2>
-//           <button className="bg-[#2664EA] py-2 px-14 rounded-full cursor-pointer hover:bg-blue-700">Generate All</button>
-//         </div>
-
-//         {/* File Upload Area */}
-//         <div className="border-2 border-dashed border-gray-600 rounded-lg p-10 mb-8 text-center">
-//           <div className="flex flex-col items-center justify-center">
-//             <svg
-//               xmlns="http://www.w3.org/2000/svg"
-//               className="h-10 w-10 mb-4 text-gray-400"
-//               fill="none"
-//               viewBox="0 0 24 24"
-//               stroke="currentColor"
-//             >
-//               <path
-//                 strokeLinecap="round"
-//                 strokeLinejoin="round"
-//                 strokeWidth={2}
-//                 d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12"
-//               />
-//             </svg>
-//             <p className="mb-2 text-gray-300">
-//               Drag and drop file or <span className="text-blue-500">Choose file</span>
-//             </p>
-//             <p className="text-sm text-gray-500">Upload Drawings/Specs</p>
-//           </div>
-//         </div>
-
-//       <div className="w-1/3 mx-auto ">
-//           {/* Create Project Button */}
-//         <button className="bg-[#2664EA] py-2 px-14 rounded-full cursor-pointer hover:bg-blue-700 mb-10">
-//           Create a new project
-//         </button>
-//       </div>
-
-//         {/* Projects List */}
-//         <div className="mb-4">
-//           <div className="flex justify-between items-center mb-4">
-//             <h2 className="text-xl font-semibold">All projects</h2>
-//             <button className="flex items-center gap-1 hover:underline cursor-pointer text-gray-300">
-//              <LuMessageSquareText size={20} />
-//               Message Us
-//             </button>
-//           </div>
-
-//           <div className="space-y-2">
-//             <div className="collapse collapse-arrow bg-[#1E293B] rounded-md">
-//               <input type="checkbox" />
-//               <div className="collapse-title text-white py-4">Holy Cross Hospital</div>
-//               <div className="collapse-content bg-[#111827]">
-//                 <p>Project details would go here</p>
-//               </div>
-//             </div>
-
-//             <div className="collapse collapse-arrow bg-[#1E293B] rounded-md">
-//               <input type="checkbox" />
-//               <div className="collapse-title text-white py-4">Charleston Self Storage</div>
-//               <div className="collapse-content bg-[#111827]">
-//                 <p>Project details would go here</p>
-//               </div>
-//             </div>
-
-//             <div className="collapse collapse-arrow bg-[#1E293B] rounded-md">
-//               <input type="checkbox" />
-//               <div className="collapse-title text-white py-4">Hampton Inn - Test</div>
-//               <div className="collapse-content bg-[#111827]">
-//                 <p>Project details would go here</p>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-//     </div>
-//   )
-// }
 
 
 import { LogOut } from "lucide-react";
 import { IoSettings, IoCloudUploadOutline } from "react-icons/io5";
 import { LuMessageSquareText } from "react-icons/lu";
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import NewProjectModal from './NewProjectModal'; // Assuming the modal component is in a separate file
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'sonner';
+import NewProjectModal from './NewProjectModal';
+import { setUploadedFiles, loadFromLocalStorage } from '../../redux/features/projectSlice';
+import UserNavbar from './UserNavbar';
+
+
+  // Remove a file from uploadedFiles
+  const handleRemoveFile = (indexToRemove) => {
+    const updatedFiles = uploadedFiles.filter((_, idx) => idx !== indexToRemove);
+    dispatch(setUploadedFiles(updatedFiles));
+    toast.success('File removed!');
+  };
+import { FaChevronDown } from 'react-icons/fa';
 
 export default function ProjectReport() {
+  const navigate = useNavigate();
+  // Auto-redirect if not logged in
+  useEffect(() => {
+    const access = localStorage.getItem('access_token');
+    const refresh = localStorage.getItem('refresh_token');
+    if (!access && !refresh) {
+      window.location.href = '/user_login?role=user';
+    }
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [projects, setProjects] = useState([
@@ -162,20 +40,81 @@ export default function ProjectReport() {
     { name: "Hampton Inn - Test", details: "Project details would go here" },
   ]);
 
+
+  const dispatch = useDispatch();
+  const { uploadedFiles } = useSelector((state) => state.project);
+
+  // Remove a file from uploadedFiles
+  const handleRemoveFile = (indexToRemove) => {
+    const updatedFiles = uploadedFiles.filter((_, idx) => idx !== indexToRemove);
+    dispatch(setUploadedFiles(updatedFiles));
+    toast.success('File removed!');
+  };
+
+  useEffect(() => {
+    // Load data from localStorage on component mount
+    dispatch(loadFromLocalStorage());
+  }, [dispatch]);
+
+  const validateFile = (file) => {
+    const allowedTypes = ['application/pdf'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+
+    if (!allowedTypes.includes(file.type)) {
+      toast.error('Only PDF files are allowed!');
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      toast.error('File size must be less than 10MB!');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    if (file) {
+    if (file && validateFile(file)) {
       setSelectedFile(file);
-      console.log("Selected file:", file.name);
+      
+      // Convert file to base64 and store in Redux/localStorage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileData = {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          data: e.target.result,
+          lastModified: file.lastModified
+        };
+        dispatch(setUploadedFiles([...uploadedFiles, fileData]));
+        toast.success('File uploaded successfully!');
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    if (file) {
+    if (file && validateFile(file)) {
       setSelectedFile(file);
-      console.log("Dropped file:", file.name);
+      
+      // Convert file to base64 and store in Redux/localStorage
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const fileData = {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          data: e.target.result,
+          lastModified: file.lastModified
+        };
+        dispatch(setUploadedFiles([...uploadedFiles, fileData]));
+        toast.success('File uploaded successfully!');
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -191,41 +130,7 @@ export default function ProjectReport() {
   return (
     <div className="min-h-screen bg-[#111827] text-white">
       {/* Header */}
-      <header className="flex justify-between items-center p-4 border-b border-gray-800 px-32">
-        <div className="text-2xl font-bold text-blue-500">DO5 Estimator</div>
-        <div className="flex items-center gap-4">
-         
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="flex items-center gap-2 cursor-pointer">
-              <div className="avatar">
-                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-                  <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-c3qyUdu68ssiiDJdtPgIa6kdenTxUQ.png"
-                    alt="User"
-                    className="rounded-full"
-                  />
-                </div>
-              </div>
-              <span>Jeffryan</span>
-            
-            </div>
-            <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-[#1F2937] rounded-box w-52">
-              <li>
-                <a className="flex items-center gap-2">
-                  <IoSettings size={20} />
-                  Setting
-                </a>
-              </li>
-              <li>
-                <a className="flex items-center gap-2 text-red-400">
-                  <LogOut size={20} />
-                  Log Out
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </header>
+      <UserNavbar userName="Jeffryan" avatarUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-c3qyUdu68ssiiDJdtPgIa6kdenTxUQ.png" />
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto py-8 px-4">
@@ -257,9 +162,28 @@ export default function ProjectReport() {
                 onChange={handleFileChange}
               />
             </p>
-            <p className="text-sm text-gray-500">Upload Drawings/Specs</p>
+            <p className="text-sm text-gray-500">Upload Drawings/Specs (PDF only)</p>
             {selectedFile && (
               <p className="text-sm text-gray-400 mt-2">Selected: {selectedFile.name}</p>
+            )}
+            {uploadedFiles.length > 0 && (
+              <div className="mt-4">
+                <p className="text-sm text-gray-300 mb-2">Uploaded Files:</p>
+                <div className="space-y-1">
+                  {uploadedFiles.map((file, index) => (
+                    <div key={index} className="flex items-center justify-between text-xs text-gray-400 bg-gray-800 px-2 py-1 rounded">
+                      <span>📄 {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)</span>
+                      <button
+                        className="ml-2 text-red-400 hover:text-red-600 text-xs px-2 py-1 rounded"
+                        onClick={() => handleRemoveFile(index)}
+                        type="button"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
             )}
           </div>
         </div>

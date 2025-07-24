@@ -1,7 +1,10 @@
 
 import { FaTimes } from 'react-icons/fa';
+import { useCreatePaymentMutation } from '../../redux/features/baseApi';
 
-const PackageModal = ({ isOpen, onClose }) => {
+
+const PackageModal = ({ isOpen, onClose, projectId }) => {
+  const [createPayment, { isLoading }] = useCreatePaymentMutation();
   if (!isOpen) return null;
 
   return (
@@ -52,8 +55,29 @@ const PackageModal = ({ isOpen, onClose }) => {
               Duis aute irure in voluptate velit
             </li>
           </ul>
-          <button className="btn bg-blue-500 hover:bg-blue-600 text-white w-full rounded-full py-3">
-            Buy Now
+          <button
+            className="btn bg-blue-500 hover:bg-blue-600 text-white w-full rounded-full py-3"
+            disabled={isLoading}
+            onClick={async () => {
+              if (!projectId) {
+                alert('No project selected');
+                return;
+              }
+              try {
+                const res = await createPayment({ project_id: projectId, product_id: 1 }).unwrap();
+                if (res.checkout_url) {
+                  console.log('Checkout URL:', res.checkout_url);
+                  window.location.href = res.checkout_url;
+                } else {
+                  alert('No checkout URL returned');
+                }
+              } catch (err) {
+                alert('Payment failed');
+                console.error(err);
+              }
+            }}
+          >
+            {isLoading ? 'Processing...' : 'Buy Now'}
           </button>
         </div>
       </div>
