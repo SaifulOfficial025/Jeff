@@ -206,14 +206,7 @@ export default function DashboardLayout() {
               <div className="flex items-center gap-3">
                 {!profileLoading && profile ? (
                   <>
-                    <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-amber-600">
-                      <img
-                        src={displayAvatar}
-                        className="w-full h-full object-cover"
-                        alt="User Avatar"
-                      />
-                      <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#121212]"></div>
-                    </div>
+                    
                     <div className="hidden md:block">
                       <h2 className="font-medium text-gray-300">{displayName}</h2>
                       <p className="text-xs text-gray-500">{displayEmail}</p>

@@ -25,14 +25,7 @@ const UserNavbar = () => {
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="flex items-center gap-2 cursor-pointer">
             <div className="avatar">
-              <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
-                <img
-                  src={avatarUrl}
-                  alt="User"
-                  className="rounded-full"
-                  onError={e => (e.target.src = '/placeholder-user.jpg')}
-                />
-              </div>
+
             </div>
             <span>{displayName.trim()}</span>
             <FaChevronDown className="h-4 w-4" />

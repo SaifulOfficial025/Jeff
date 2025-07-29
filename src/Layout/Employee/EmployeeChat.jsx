@@ -70,7 +70,7 @@ export default function EmployeeChat() {
     if (!selectedChatRoomId) return;
     const token = localStorage.getItem("access_token");
     if (!token) return;
-    const wsUrl = `ws://10.10.13.60:8000/ws/chat/${selectedChatRoomId}/?token=${token}`;
+    const wsUrl = `ws://e2a31fa8fde8.ngrok-free.app/ws/chat/${selectedChatRoomId}/?token=${token}`;
     const ws = new window.WebSocket(wsUrl);
     wsRef.current = ws;
 

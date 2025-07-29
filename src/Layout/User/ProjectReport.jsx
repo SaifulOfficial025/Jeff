@@ -9,20 +9,21 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import NewProjectModal from './NewProjectModal';
-import { setUploadedFiles, loadFromLocalStorage } from '../../redux/features/projectSlice';
+import { setUploadedFiles, loadFromLocalStorage, setCurrentProject } from '../../redux/features/projectSlice';
 import UserNavbar from './UserNavbar';
+import { useGetAllProjectsQuery } from '../../redux/features/baseApi';
 
-
-  // Remove a file from uploadedFiles
-  const handleRemoveFile = (indexToRemove) => {
-    const updatedFiles = uploadedFiles.filter((_, idx) => idx !== indexToRemove);
-    dispatch(setUploadedFiles(updatedFiles));
-    toast.success('File removed!');
-  };
+import { Link } from 'react-router-dom';
 import { FaChevronDown } from 'react-icons/fa';
 
 export default function ProjectReport() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { uploadedFiles } = useSelector((state) => state.project);
+
+  // Fetch all projects from API
+  const { data: allProjects, isLoading: projectsLoading, error: projectsError } = useGetAllProjectsQuery();
+
   // Auto-redirect if not logged in
   useEffect(() => {
     const access = localStorage.getItem('access_token');
@@ -34,15 +35,27 @@ export default function ProjectReport() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [projects, setProjects] = useState([
-    { name: "Holy Cross Hospital", details: "Project details would go here" },
-    { name: "Charleston Self Storage", details: "Project details would go here" },
-    { name: "Hampton Inn - Test", details: "Project details would go here" },
-  ]);
 
+  useEffect(() => {
+    // Load data from localStorage on component mount
+    dispatch(loadFromLocalStorage());
+  }, [dispatch]);
 
-  const dispatch = useDispatch();
-  const { uploadedFiles } = useSelector((state) => state.project);
+  // Handle view project click
+  const handleViewProject = (project) => {
+    // Set the current project in Redux store
+    dispatch(setCurrentProject({
+      project_id: project.id,
+      project_name: project.name,
+      scope: project.scope,
+      description: project.project_description,
+      status: project.status,
+      progress: project.progress,
+      created_at: project.created_at,
+      updated_at: project.updated_at
+    }));
+    navigate('/view_project');
+  };
 
   // Remove a file from uploadedFiles
   const handleRemoveFile = (indexToRemove) => {
@@ -122,9 +135,11 @@ export default function ProjectReport() {
     event.preventDefault();
   };
 
-  const handleProjectSubmit = (newProject) => {
-    setProjects([...projects, newProject]);
+  const handleProjectSubmit = () => {
+    // Refresh the projects list after creating a new project
     setIsModalOpen(false);
+    // You might want to refetch the projects list here
+    toast.success('Project created successfully!');
   };
 
   return (
@@ -134,13 +149,7 @@ export default function ProjectReport() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto py-8 px-4">
-        {/* Generate Report Card */}
-        <div className="bg-[#1E293B] rounded-lg p-6 mb-8 text-center">
-          <h2 className="text-2xl font-semibold mb-4">Generate Complete Project Report</h2>
-          <button className="bg-[#2664EA] py-2 px-14 rounded-full cursor-pointer hover:bg-blue-700">
-            Generate All
-          </button>
-        </div>
+
 
         {/* File Upload Area */}
         <div
@@ -191,8 +200,15 @@ export default function ProjectReport() {
         <div className="w-1/3 mx-auto">
           {/* Create Project Button */}
           <button
-            className="bg-[#2664EA] py-2 px-14 rounded-full cursor-pointer hover:bg-blue-700 mb-10"
-            onClick={() => setIsModalOpen(true)}
+            className={`bg-[#2664EA] py-2 px-14 rounded-full mb-10 ${uploadedFiles.length === 0 ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-blue-700'}`}
+            onClick={() => {
+              if (uploadedFiles.length === 0) {
+                toast.error('Please upload at least one file before creating a project.');
+                return;
+              }
+              setIsModalOpen(true);
+            }}
+            disabled={uploadedFiles.length === 0}
           >
             Create a new project
           </button>
@@ -202,23 +218,42 @@ export default function ProjectReport() {
         <div className="mb-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">All projects</h2>
-            <button className="flex items-center gap-1 hover:underline cursor-pointer text-gray-300">
+            {/* <button className="flex items-center gap-1 hover:underline cursor-pointer text-gray-300">
               <LuMessageSquareText size={20} />
               Message Us
-            </button>
+            </button> */}
           </div>
 
-          <div className="space-y-2">
-            {projects.map((project, index) => (
-              <div key={index} className="collapse collapse-arrow bg-[#1E293B] rounded-md">
-                <input type="checkbox" />
-                <div className="collapse-title text-white py-4">{project.name}</div>
-                <div className="collapse-content bg-[#111827]">
-                  <p>{project.details}</p>
-                </div>
-              </div>
-            ))}
+         <div className="space-y-2">
+      {projectsLoading ? (
+        <div className="text-center py-4">Loading projects...</div>
+      ) : projectsError ? (
+        <div className="text-red-500 text-center py-4">Error loading projects</div>
+      ) : allProjects && allProjects.length > 0 ? (
+        allProjects.map((project, index) => (
+          <div
+            key={project.id || index}
+            className="flex items-center justify-between bg-[#1E293B] text-white px-4 py-4 rounded-md text-sm"
+          >
+            <div className="flex flex-col">
+              <span className="font-medium">{project.name}</span>
+              <span className="text-gray-400 text-xs">Status: {project.status}</span>
+              <span className="text-gray-400 text-xs">Progress: {project.progress}%</span>
+            </div>
+            <button 
+              onClick={() => handleViewProject(project)}
+              className="text-green-500 hover:underline cursor-pointer"
+            >
+              View Project
+            </button>
           </div>
+        ))
+      ) : (
+        <div className="text-center py-4 text-gray-400">No projects found</div>
+      )}
+    </div>
+
+
         </div>
 
         {/* New Project Modal */}

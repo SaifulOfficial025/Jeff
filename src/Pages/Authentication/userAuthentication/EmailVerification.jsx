@@ -18,9 +18,9 @@ const EmailVerification = () => {
   const onSubmit = async (data) => {
     setApiError("");
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://10.10.13.60:8000"}/api/users/forgot-password/`, {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://e2a31fa8fde8.ngrok-free.app"}/api/users/forgot-password/`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 'ngrok-skip-browser-warning': 'true'},
         body: JSON.stringify({ email: data.email }),
       });
       if (!res.ok) {

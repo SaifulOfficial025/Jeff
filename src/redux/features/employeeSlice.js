@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://10.10.13.60:8000';
+const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://e2a31fa8fde8.ngrok-free.app';
 
 export const fetchEmployeeStats = createAsyncThunk(
   'employee/fetchStats',

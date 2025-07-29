@@ -17,9 +17,15 @@ export const baseApi = createApi({
             return headers;
         },
      }),
+     
 
     tagTypes: ["users", "employee", "vendors"],
     endpoints: (builder) => ({
+
+    // Get all projects
+    getAllProjects: builder.query({
+      query: () => '/api/projects/',
+    }),
 
     // Get project details by ID
     getProjectDetails: builder.query({
@@ -241,6 +247,14 @@ export const baseApi = createApi({
       }),
     }),
 
+    // Process AI Analysis
+    processAiAnalysis: builder.mutation({
+      query: (projectId) => ({
+        url: `/api/projects/${projectId}/process_ai_analysis/`,
+        method: 'POST',
+      }),
+    }),
+
 
 
 
@@ -286,7 +300,8 @@ export const {
     //block vendor
     useBlockVendorMutation,
 
-
+    //get all projects
+    useGetAllProjectsQuery,
 
     //get latest project
     useGetLatestProjectQuery,
@@ -301,6 +316,9 @@ export const {
 
     //payment
     useCreatePaymentMutation,
+
+    //process AI analysis
+    useProcessAiAnalysisMutation,
 
     //create project
     useCreateProjectMutation,

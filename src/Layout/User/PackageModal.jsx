@@ -22,11 +22,7 @@ const PackageModal = ({ isOpen, onClose, projectId }) => {
         <div className="text-center">
           <h2 className="text-xl font-semibold text-blue-400 mb-2">DO5 Estimator Plan</h2>
           <div className="flex justify-center mb-4">
-            <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Group%202147226063-9sZGCr5J5e5n1qG7qO8x9qY9wXy9qZ.png"
-              alt="Plan Illustration"
-              className="h-24 w-24"
-            />
+          
           </div>
           <p className="text-4xl font-bold text-white mb-4">$99</p>
           <ul className="text-left text-gray-300 space-y-2 mb-6">
@@ -64,7 +60,15 @@ const PackageModal = ({ isOpen, onClose, projectId }) => {
                 return;
               }
               try {
-                const res = await createPayment({ project_id: projectId, product_id: 1 }).unwrap();
+                const currentUrl = window.location.origin;
+                const paymentData = {
+                  project_id: projectId,
+                  product_id: 1,
+                  success_url: `${currentUrl}/after_payment`,
+                  cancel_url: `${currentUrl}/project_report_generate?payment=cancelled`
+                };
+                
+                const res = await createPayment(paymentData).unwrap();
                 if (res.checkout_url) {
                   console.log('Checkout URL:', res.checkout_url);
                   window.location.href = res.checkout_url;

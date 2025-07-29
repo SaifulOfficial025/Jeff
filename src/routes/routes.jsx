@@ -52,7 +52,9 @@ import ReportGenerate from "../Layout/User/ReportGenerate";
 import UserProfile from "../Layout/User/UserProfile";
 import UserChat from "../Layout/User/UserChat";
 import SelectLoginPage from "../Pages/Authentication/SelectLoginPage";
+import ViewProject from "../Layout/User/ViewProject";
 
+import AfterPayment from "../Layout/User/AfterPayment";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -125,4 +127,6 @@ export const router = createBrowserRouter([
     { path: "/project_report", element: <ProjectReport /> },
     { path: "/project_report_generate", element: <ReportGenerate /> },
     { path: "/user/profile", element: <UserProfile /> },
+    { path: "/view_project", element: <ViewProject /> },
+    { path: "/after_payment", element: <AfterPayment /> }
 ]);
