@@ -16,7 +16,7 @@ import UserOTPVerfication from "../Pages/Authentication/userAuthentication/UserO
 import UserResetPass from "../Pages/Authentication/userAuthentication/UserResetPass";
 
 // Employee Authentication
-import employeeRegistration from "../Pages/Authentication/EmployeeAuthentication/employeeRegistration";
+// import employeeRegistration from "../Pages/Authentication/EmployeeAuthentication/employeeRegistration";
 import EmployeeLogin from "../Pages/Authentication/EmployeeAuthentication/EmployeeLogin";
 import employeeEmailVerification from "../Pages/Authentication/EmployeeAuthentication/employeeEmailVerification";
 import EmployeeOTPVerification from "../Pages/Authentication/EmployeeAuthentication/EmployeeOTPVerification";
