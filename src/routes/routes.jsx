@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import Main from "../Layout/Main";
+import ProtectedRoute from "./ProtectedRoute";
 import Home from "../Pages/Home/Home";
 import SelectionPage from "../Pages/Authentication/SelectionPage";
 import RegistrationPage from "../Pages/Authentication/Registration";
@@ -65,7 +66,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
     children: [
       { path: "admin_home", element: <Admin_Home /> },
       { path: "users_info", element: <UserInfo /> },
@@ -79,8 +84,6 @@ export const router = createBrowserRouter([
       { path: "vendor_home", element: <VendorHome /> },
       { path: "vendor_chat", element: <VendorChat /> },
       { path: "vendor_profile", element: <VendorProfile /> },
-      
-    
     ],
   },
   { path: "user_chat", element: <UserChat /> },
