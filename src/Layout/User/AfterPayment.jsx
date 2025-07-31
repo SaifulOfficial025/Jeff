@@ -7,6 +7,7 @@ import { useGetProjectDetailsQuery, useProcessAiAnalysisMutation } from '../../r
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import UserNavbar from './UserNavbar';
+import { FaArrowCircleLeft } from "react-icons/fa";
 
 const AfterPayment = () => {
   const dispatch = useDispatch();
@@ -474,7 +475,7 @@ const AfterPayment = () => {
               className="btn btn-sm btn-ghost text-gray-300"
               onClick={() => navigate('/project_report')}
             >
-              <FaComment className="h-5 w-5 mr-1" />
+              <FaArrowCircleLeft  className="h-5 w-5 mr-1" />
               Back to Projects
             </button>
           </div>
