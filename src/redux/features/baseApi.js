@@ -255,6 +255,11 @@ export const baseApi = createApi({
       }),
     }),
 
+    // Check AI Analysis Status
+    checkAiAnalysisStatus: builder.query({
+      query: ({ projectId, taskId }) => `/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
+    }),
+
 
 
 
@@ -319,6 +324,9 @@ export const {
 
     //process AI analysis
     useProcessAiAnalysisMutation,
+
+    //check AI analysis status
+    useCheckAiAnalysisStatusQuery,
 
     //create project
     useCreateProjectMutation,

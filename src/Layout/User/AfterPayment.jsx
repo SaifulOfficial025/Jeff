@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { FaDownload, FaComment, FaSpinner } from 'react-icons/fa';
+import { FaDownload, FaComment, FaSpinner, FaTimes } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadFromLocalStorage } from '../../redux/features/projectSlice';
 import { useGetProjectDetailsQuery, useProcessAiAnalysisMutation } from '../../redux/features/baseApi';
@@ -11,7 +11,7 @@ import UserNavbar from './UserNavbar';
 const AfterPayment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { projectName, currentProject } = useSelector((state) => state.project);
+  const { currentProject } = useSelector((state) => state.project);
   
   // Get current project id (support both project_id and id)
   const projectId = currentProject?.project_id || currentProject?.id;
@@ -23,6 +23,10 @@ const AfterPayment = () => {
   const [aiProcessingComplete, setAiProcessingComplete] = useState(false);
   const [generatedFiles, setGeneratedFiles] = useState([]);
   const [processingError, setProcessingError] = useState(null);
+  const [progress, setProgress] = useState({ current: 0, total: 100 });
+  const [statusMessage, setStatusMessage] = useState('Initializing AI analysis...');
+  const [pollingInterval, setPollingInterval] = useState(null);
+  const [showCancelOption, setShowCancelOption] = useState(false);
 
   useEffect(() => {
     dispatch(loadFromLocalStorage());
@@ -30,35 +34,144 @@ const AfterPayment = () => {
 
   // Auto-start AI processing when component mounts
   useEffect(() => {
+    let currentInterval = null;
+
+    // Polling function to check AI analysis status
+    const pollAiStatus = async (projectId, taskId) => {
+      try {
+        const response = await fetch(
+          `https://trick-offered-certificate-wy.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
+            },
+          }
+        );
+        
+        if (!response.ok) {
+          throw new Error('Failed to check status');
+        }
+        
+        const data = await response.json();
+        
+        if (data.status === 'PENDING') {
+          setStatusMessage('Waiting to start...');
+          setProgress({ current: 0, total: 100 });
+        } else if (data.status === 'PROGRESS') {
+          setStatusMessage('Running AI analysis...');
+          setProgress({ current: data.current || 0, total: data.total || 100 });
+        } else if (data.status === 'SUCCESS') {
+          setAiProcessingComplete(true);
+          setAiProcessingStarted(false);
+          setGeneratedFiles(data.generated_files || []);
+          setStatusMessage('AI analysis completed successfully!');
+          setShowCancelOption(false);
+          toast.success('AI processing completed successfully!');
+          refetch();
+          // Clear polling immediately
+          if (currentInterval) {
+            clearInterval(currentInterval);
+            currentInterval = null;
+            setPollingInterval(null);
+          }
+          return; // Stop further polling
+        } else if (data.status === 'FAILURE') {
+          setProcessingError(data.error || 'AI processing failed');
+          setAiProcessingStarted(false);
+          setShowCancelOption(false);
+          toast.error(data.error || 'AI processing failed');
+          // Clear polling immediately
+          if (currentInterval) {
+            clearInterval(currentInterval);
+            currentInterval = null;
+            setPollingInterval(null);
+          }
+          return; // Stop further polling
+        }
+      } catch (error) {
+        console.error('Polling error:', error);
+        setProcessingError('Failed to check processing status');
+        setAiProcessingStarted(false);
+        setShowCancelOption(false);
+        // Clear polling on error
+        if (currentInterval) {
+          clearInterval(currentInterval);
+          currentInterval = null;
+          setPollingInterval(null);
+        }
+      }
+    };
+
     const startProcessing = async () => {
       if (projectId && !aiProcessingStarted && !aiProcessingComplete) {
         setAiProcessingStarted(true);
         setProcessingError(null);
+        setStatusMessage('Starting AI analysis...');
+        setShowCancelOption(true);
 
         try {
           const response = await processAiAnalysis(projectId).unwrap();
           console.log('AI Processing response:', response);
           
-          if (response.success) {
-            setGeneratedFiles(response.generated_files || []);
-            setAiProcessingComplete(true);
-            toast.success(response.message || 'AI processing completed successfully!');
+          if (response.task_id) {
+            setStatusMessage('AI analysis started...');
             
-            // Refetch project details to get updated files
-            refetch();
+            // Start polling every 2 seconds
+            currentInterval = setInterval(() => {
+              pollAiStatus(projectId, response.task_id);
+            }, 2000);
+            
+            setPollingInterval(currentInterval);
+            
+            // Initial poll
+            pollAiStatus(projectId, response.task_id);
           } else {
-            throw new Error(response.message || 'AI processing failed');
+            throw new Error('No task ID received');
           }
         } catch (error) {
           console.error('AI Processing error:', error);
-          setProcessingError(error.message || 'Failed to process AI analysis');
-          toast.error(error.message || 'Failed to process AI analysis');
+          setProcessingError(error.message || 'Failed to start AI analysis');
+          setAiProcessingStarted(false);
+          setShowCancelOption(false);
+          toast.error(error.message || 'Failed to start AI analysis');
         }
       }
     };
 
     startProcessing();
+
+    // Cleanup function
+    return () => {
+      if (currentInterval) {
+        clearInterval(currentInterval);
+      }
+    };
   }, [projectId, aiProcessingStarted, aiProcessingComplete, processAiAnalysis, refetch]);
+
+  // Cancel AI processing
+  const handleCancelProcessing = () => {
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+      setPollingInterval(null);
+    }
+    setAiProcessingStarted(false);
+    setAiProcessingComplete(false);
+    setProcessingError(null);
+    setGeneratedFiles([]);
+    setProgress({ current: 0, total: 100 });
+    setStatusMessage('AI analysis cancelled');
+    setShowCancelOption(false);
+    toast.info('AI processing cancelled');
+  };
+
+  // Cleanup interval on unmount
+  useEffect(() => {
+    return () => {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+      }
+    };
+  }, [pollingInterval]);
 
   const handleAiProcessing = async () => {
     if (!projectId) {
@@ -66,10 +179,20 @@ const AfterPayment = () => {
       return;
     }
 
+    // Reset all states
     setAiProcessingStarted(false);
     setAiProcessingComplete(false);
     setProcessingError(null);
     setGeneratedFiles([]);
+    setProgress({ current: 0, total: 100 });
+    setStatusMessage('Initializing AI analysis...');
+    setShowCancelOption(false);
+    
+    // Clear any existing polling
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+      setPollingInterval(null);
+    }
   };
 
   // Use API data when available, fallback to current project data
@@ -155,19 +278,98 @@ const AfterPayment = () => {
   };
 
   const tableData = getProcessedFiles();
+  
+  // Calculate the count of generated files (excluding original files)
+  const generatedFilesCount = tableData.filter(file => 
+    file.category !== 'Original Files' && 
+    file.name !== 'No highlighted pdf' && 
+    file.name !== 'No analysis reports' && 
+    file.name !== 'No detailed estimate' && 
+    file.name !== 'No engineering estimate'
+  ).length;
 
   // Show loading state during AI processing
   if (isProcessing || (aiProcessingStarted && !aiProcessingComplete && !processingError)) {
+    const progressPercentage = progress.total > 0 ? Math.round((progress.current / progress.total) * 100) : 0;
+    
     return (
       <div className="min-h-screen bg-[#111827] text-white">
         <UserNavbar userName="Jeffryan" avatarUrl="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-GR2hUm72vkhHMxYIcHsS1hdVb9A14k.png" />
         <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="mb-4">
-              <FaSpinner className="animate-spin text-4xl text-blue-500 mx-auto mb-4" />
+          <div className="text-center max-w-md mx-auto p-8">
+            {/* Circular Progress Animation */}
+            <div className="relative mb-8">
+              <div className="w-32 h-32 mx-auto">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  {/* Background circle */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke="currentColor"
+                    strokeWidth="8"
+                    fill="none"
+                    className="text-gray-700"
+                  />
+                  {/* Progress circle */}
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    stroke="currentColor"
+                    strokeWidth="8"
+                    fill="none"
+                    strokeLinecap="round"
+                    className="text-blue-500"
+                    style={{
+                      strokeDasharray: `${2 * Math.PI * 40}`,
+                      strokeDashoffset: `${2 * Math.PI * 40 * (1 - progressPercentage / 100)}`,
+                      transition: 'stroke-dashoffset 0.5s ease-in-out',
+                    }}
+                  />
+                </svg>
+                {/* Percentage in center */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-2xl font-bold text-blue-400">{progressPercentage}%</span>
+                </div>
+              </div>
+              {/* Spinning icon */}
+              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <FaSpinner className="animate-spin text-4xl text-blue-500 opacity-20" />
+              </div>
             </div>
-            <div className="text-xl mb-2">Processing AI Analysis...</div>
-            <div className="text-gray-400">This may take a few minutes. Please wait while we generate your reports.</div>
+
+            {/* Status Message */}
+            <div className="text-xl mb-4 text-blue-400">{statusMessage}</div>
+            
+            {/* Progress Details */}
+            <div className="text-gray-400 mb-6">
+              Processing step {progress.current} of {progress.total}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-700 rounded-full h-3 mb-6">
+              <div 
+                className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-500 ease-out"
+                style={{ width: `${progressPercentage}%` }}
+              ></div>
+            </div>
+
+            {/* Cancel Button */}
+            {showCancelOption && (
+              <button
+                onClick={handleCancelProcessing}
+                className="flex items-center gap-2 bg-red-600 hover:bg-red-700 px-6 py-3 rounded-lg mx-auto transition-colors"
+              >
+                <FaTimes className="h-4 w-4" />
+                Cancel Processing
+              </button>
+            )}
+
+            {/* Additional Info */}
+            <div className="text-gray-500 text-sm mt-4">
+              This may take a few minutes. Please wait while we generate your reports.
+            </div>
           </div>
         </div>
       </div>
@@ -231,7 +433,7 @@ const AfterPayment = () => {
         <div className="max-w-6xl mx-auto">
           <div className="mb-1">
             <span className="text-gray-400">Project Name: </span>
-            <span className="text-blue-500">{projectName || currentProject?.project_name || 'No Project Selected'}</span>
+            <span className="text-blue-500">{project.project_name || project.name || currentProject?.project_name || 'No Project Selected'}</span>
           </div>
           <div>
             <span className="text-gray-400">Scope of work: </span>
@@ -250,7 +452,7 @@ const AfterPayment = () => {
               <div className="text-green-400 text-lg font-semibold">✅ Payment Successful & AI Processing Complete!</div>
             </div>
             <div className="text-gray-300">
-              Your payment has been processed successfully and AI analysis has generated {generatedFiles.length} files for your project.
+              Your payment has been processed successfully and AI analysis has generated {generatedFilesCount} files for your project.
             </div>
           </div>
         )}
@@ -280,10 +482,10 @@ const AfterPayment = () => {
           {/* Files Table */}
           <div className="overflow-x-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-medium">{project.name || currentProject?.project_name || 'Project Files'}</h3>
+              <h3 className="font-medium">{project.project_name || project.name || currentProject?.project_name || 'Project Files'}</h3>
               {aiProcessingComplete && (
                 <div className="text-sm text-green-400">
-                  ✅ {generatedFiles.length} files generated successfully
+                  ✅ {generatedFilesCount} files generated successfully
                 </div>
               )}
             </div>
@@ -352,12 +554,12 @@ const AfterPayment = () => {
         </div>
 
         {/* Processing Summary */}
-        {aiProcessingComplete && generatedFiles.length > 0 && (
+        {aiProcessingComplete && generatedFilesCount > 0 && (
           <div className="bg-[#1E293B] rounded-lg p-6 space-y-4">
             <h3 className="text-lg font-semibold mb-4">Processing Summary</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-400">{generatedFiles.length}</div>
+                <div className="text-2xl font-bold text-blue-400">{generatedFilesCount}</div>
                 <div className="text-gray-400">Files Generated</div>
               </div>
               <div className="text-center">
@@ -366,7 +568,7 @@ const AfterPayment = () => {
               </div>
               <div className="text-center">
                 <div className="text-2xl font-bold text-yellow-400">
-                  {generatedFiles.filter(f => f.file_type === 'highlighted_pdf').length}
+                  {tableData.filter(f => f.category === 'Highlighted PDF' && f.name !== 'No highlighted pdf').length}
                 </div>
                 <div className="text-gray-400">Highlighted PDFs</div>
               </div>
