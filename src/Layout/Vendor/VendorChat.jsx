@@ -70,7 +70,7 @@ export default function VendorChat() {
     if (!selectedChatRoomId) return;
     const token = localStorage.getItem("access_token");
     if (!token) return;
-    const wsUrl = `ws://e2a31fa8fde8.ngrok-free.app/ws/chat/${selectedChatRoomId}/?token=${token}`;
+    const wsUrl = `ws://trick-offered-certificate-wy.trycloudflare.com/ws/chat/${selectedChatRoomId}/?token=${token}`;
     const ws = new window.WebSocket(wsUrl);
     wsRef.current = ws;
 
