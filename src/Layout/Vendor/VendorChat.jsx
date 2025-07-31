@@ -198,11 +198,7 @@ export default function VendorChat() {
                 onClick={() => setSelectedChatRoomId(room.id)}
               >
                 <div className="relative">
-                  <img
-                    src={room.other_participant?.image || "/placeholder.svg"}
-                    alt="User"
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
+              
                   {room.unread_count > 0 && (
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-[#121212]"></span>
                   )}
@@ -230,11 +226,7 @@ export default function VendorChat() {
           <div className="flex items-center">
             {selectedChatRoom ? (
               <>
-                <img
-                  src={selectedChatRoom.other_participant?.image || "/placeholder.svg"}
-                  alt="User"
-                  className="w-14 h-14 rounded-full object-cover"
-                />
+            
                 <div className="ml-3">
                   <h3 className="text-blue-400 font-medium">
                     {selectedChatRoom.other_participant?.full_name ||
