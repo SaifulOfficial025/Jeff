@@ -41,7 +41,7 @@ const AfterPayment = () => {
     const pollAiStatus = async (projectId, taskId) => {
       try {
         const response = await fetch(
-          `https://trick-offered-certificate-wy.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
+          `https://vg-warriors-innocent-demonstrates.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`,

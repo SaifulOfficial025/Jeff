@@ -7,7 +7,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: fetchBaseQuery({ 
-        baseUrl: 'https://trick-offered-certificate-wy.trycloudflare.com',
+        baseUrl: 'https://vg-warriors-innocent-demonstrates.trycloudflare.com',
 
           prepareHeaders: (headers) => {
             const token = localStorage.getItem("access_token");
