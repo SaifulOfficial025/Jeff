@@ -96,10 +96,17 @@ export default function ProjectReport() {
           type: file.type,
           size: file.size,
           data: e.target.result,
-          lastModified: file.lastModified
+          lastModified: file.lastModified,
+          id: `${file.name}-${file.lastModified}-${Date.now()}` // Add unique ID
         };
-        dispatch(setUploadedFiles([...uploadedFiles, fileData]));
+        
+        // Create a new array instead of mutating existing one
+        const newUploadedFiles = [...uploadedFiles, fileData];
+        dispatch(setUploadedFiles(newUploadedFiles));
         toast.success('File uploaded successfully!');
+      };
+      reader.onerror = () => {
+        toast.error('Error reading file. Please try again.');
       };
       reader.readAsDataURL(file);
     }
@@ -119,10 +126,17 @@ export default function ProjectReport() {
           type: file.type,
           size: file.size,
           data: e.target.result,
-          lastModified: file.lastModified
+          lastModified: file.lastModified,
+          id: `${file.name}-${file.lastModified}-${Date.now()}` // Add unique ID
         };
-        dispatch(setUploadedFiles([...uploadedFiles, fileData]));
+        
+        // Create a new array instead of mutating existing one
+        const newUploadedFiles = [...uploadedFiles, fileData];
+        dispatch(setUploadedFiles(newUploadedFiles));
         toast.success('File uploaded successfully!');
+      };
+      reader.onerror = () => {
+        toast.error('Error reading file. Please try again.');
       };
       reader.readAsDataURL(file);
     }

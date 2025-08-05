@@ -17,9 +17,24 @@ const projectSlice = createSlice({
   initialState,
   reducers: {
     setUploadedFiles: (state, action) => {
-      state.uploadedFiles = action.payload;
-      // Store in localStorage
-      localStorage.setItem('uploadedFiles', JSON.stringify(action.payload));
+      // Ensure the payload is serializable
+      const serializedFiles = action.payload.map(file => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        data: file.data,
+        lastModified: file.lastModified,
+        id: file.id || `${file.name}-${file.lastModified}-${Date.now()}`
+      }));
+      
+      state.uploadedFiles = serializedFiles;
+      
+      // Store in localStorage with error handling
+      try {
+        localStorage.setItem('uploadedFiles', JSON.stringify(serializedFiles));
+      } catch (error) {
+        console.error('Error saving files to localStorage:', error);
+      }
     },
     setProjectName: (state, action) => {
       state.projectName = action.payload;
@@ -52,25 +67,45 @@ const projectSlice = createSlice({
     },
     loadFromLocalStorage: (state) => {
       // Load data from localStorage on initialization
-      const storedFiles = localStorage.getItem('uploadedFiles');
-      const storedProjectName = localStorage.getItem('projectName');
-      const storedProjectDescription = localStorage.getItem('projectDescription');
-      const storedCurrentProject = localStorage.getItem('currentProject');
-      const storedProjects = localStorage.getItem('projects');
-      if (storedFiles) {
-        state.uploadedFiles = JSON.parse(storedFiles);
-      }
-      if (storedProjectName) {
-        state.projectName = storedProjectName;
-      }
-      if (storedProjectDescription) {
-        state.projectDescription = storedProjectDescription;
-      }
-      if (storedCurrentProject) {
-        state.currentProject = JSON.parse(storedCurrentProject);
-      }
-      if (storedProjects) {
-        state.projects = JSON.parse(storedProjects);
+      try {
+        const storedFiles = localStorage.getItem('uploadedFiles');
+        const storedProjectName = localStorage.getItem('projectName');
+        const storedProjectDescription = localStorage.getItem('projectDescription');
+        const storedCurrentProject = localStorage.getItem('currentProject');
+        const storedProjects = localStorage.getItem('projects');
+        
+        if (storedFiles) {
+          const parsedFiles = JSON.parse(storedFiles);
+          // Ensure each file has required serializable properties
+          state.uploadedFiles = parsedFiles.map(file => ({
+            name: file.name || '',
+            type: file.type || '',
+            size: file.size || 0,
+            data: file.data || '',
+            lastModified: file.lastModified || Date.now(),
+            id: file.id || `${file.name}-${file.lastModified}-${Date.now()}`
+          }));
+        }
+        if (storedProjectName) {
+          state.projectName = storedProjectName;
+        }
+        if (storedProjectDescription) {
+          state.projectDescription = storedProjectDescription;
+        }
+        if (storedCurrentProject) {
+          state.currentProject = JSON.parse(storedCurrentProject);
+        }
+        if (storedProjects) {
+          state.projects = JSON.parse(storedProjects);
+        }
+      } catch (error) {
+        console.error('Error loading from localStorage:', error);
+        // Reset to initial state if loading fails
+        state.uploadedFiles = [];
+        state.projectName = '';
+        state.projectDescription = '';
+        state.currentProject = null;
+        state.projects = [];
       }
     }
   },

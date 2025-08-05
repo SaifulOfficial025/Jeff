@@ -11,9 +11,15 @@ export const store = configureStore({
     project: projectReducer,
     employee: employeeReducer,
   },
- 
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(baseApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        // Ignore these paths in the state
+        ignoredPaths: ['register'],
+      }
+    }).concat(baseApi.middleware),
 })
 // ...existing code...
 
