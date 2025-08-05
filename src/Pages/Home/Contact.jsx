@@ -50,7 +50,14 @@ const Contact = () => {
           <div className="flex flex-col md:flex-row md:space-x-6 space-y-4 md:space-y-0">
             <div className="w-full">
               <input
-                {...register('fullName', { required: 'Full Name is required' })}
+                {...register('fullName', {
+                  required: 'Full Name is required',
+                  validate: {
+                    hasTwoWords: value => value.trim().split(/\s+/).length >= 2 || 'Please enter your first and last name.',
+                    onlyLetters: value => /^[A-Za-z ]+$/.test(value) || 'Name can only contain letters and spaces.',
+                    minLength: value => value.trim().split(/\s+/).every(word => word.length >= 3) || 'Each name part must be at least 3 characters.'
+                  }
+                })}
                 type="text"
                 placeholder="Full Name"
                 className="w-full rounded-md bg-[#1471FF1A] text-gray-200 placeholder-gray-400 border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none py-3 px-5 transition-all duration-300"
