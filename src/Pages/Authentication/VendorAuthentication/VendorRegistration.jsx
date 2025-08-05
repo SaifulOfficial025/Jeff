@@ -84,12 +84,19 @@ export default function VendorRegistration() {
                 type="text"
                 placeholder="John Doe"
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
-                  errors.fullName ? "input-error" : ""
+                  errors.full_name ? "input-error" : ""
                 }`}
-                {...register("full_name", { required: "Full name is required" })}
+                {...register("full_name", {
+                  required: "Full name is required",
+                  validate: {
+                    hasTwoWords: value => value.trim().split(/\s+/).length >= 2 || 'Please enter your first and last name.',
+                    onlyLetters: value => /^[A-Za-z ]+$/.test(value) || 'Name can only contain letters and spaces.',
+                    minLength: value => value.trim().split(/\s+/).every(word => word.length >= 3) || 'Each name part must be at least 3 characters.'
+                  }
+                })}
               />
-              {errors.fullName && (
-                <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+              {errors.full_name && (
+                <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>
               )}
             </div>
 
@@ -99,12 +106,18 @@ export default function VendorRegistration() {
                 type="text"
                 placeholder="Acme Inc"
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
-                  errors.companyName ? "input-error" : ""
+                  errors.company_name ? "input-error" : ""
                 }`}
-                {...register("company_name", { required: "Company name is required" })}
+                {...register("company_name", {
+                  required: "Company name is required",
+                  minLength: {
+                    value: 3,
+                    message: "Company name must be at least 3 characters"
+                  }
+                })}
               />
-              {errors.companyName && (
-                <p className="text-red-500 text-sm mt-1">{errors.companyName.message}</p>
+              {errors.company_name && (
+                <p className="text-red-500 text-sm mt-1">{errors.company_name.message}</p>
               )}
             </div>
 
@@ -119,7 +132,7 @@ export default function VendorRegistration() {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: "Invalid email address",
                   },
                 })}
@@ -135,18 +148,18 @@ export default function VendorRegistration() {
                 type="tel"
                 placeholder="0123456789"
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
-                  errors.phone ? "input-error" : ""
+                  errors.phone_number ? "input-error" : ""
                 }`}
                 {...register("phone_number", {
                   required: "Phone number is required",
                   pattern: {
                     value: /^\d{10,15}$/,
-                    message: "Invalid phone number",
+                    message: "Phone number must be 10-15 digits",
                   },
                 })}
               />
-              {errors.phone && (
-                <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+              {errors.phone_number && (
+                <p className="text-red-500 text-sm mt-1">{errors.phone_number.message}</p>
               )}
             </div>
 
@@ -165,6 +178,9 @@ export default function VendorRegistration() {
                       value: 6,
                       message: "Password must be at least 6 characters",
                     },
+                    validate: value =>
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/.test(value) ||
+                      "Password must contain uppercase, lowercase, number, and special character."
                   })}
                 />
                 <button
@@ -191,8 +207,7 @@ export default function VendorRegistration() {
                   }`}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
-                    validate: (value) =>
-                      value === password || "Passwords do not match",
+                    validate: value => value === password || "Passwords do not match",
                   })}
                 />
                 <button

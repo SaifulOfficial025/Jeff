@@ -80,7 +80,14 @@ export default function employeeRegistration() {
                 className={`input input-bordered py-6 w-full bg-gray-900 border-gray-700 text-white ${
                   errors.fullName ? "input-error" : ""
                 }`}
-                {...register("fullName", { required: "Full name is required" })}
+                {...register("fullName", {
+                  required: "Full name is required",
+                  validate: {
+                    hasTwoWords: value => value.trim().split(/\s+/).length >= 2 || 'Please enter your first and last name.',
+                    onlyLetters: value => /^[A-Za-z ]+$/.test(value) || 'Name can only contain letters and spaces.',
+                    minLength: value => value.trim().split(/\s+/).every(word => word.length >= 3) || 'Each name part must be at least 3 characters.'
+                  }
+                })}
               />
               {errors.fullName && (
                 <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
@@ -98,7 +105,7 @@ export default function employeeRegistration() {
                 {...register("email", {
                   required: "Email is required",
                   pattern: {
-                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: "Invalid email address",
                   },
                 })}
@@ -120,7 +127,7 @@ export default function employeeRegistration() {
                   required: "Phone number is required",
                   pattern: {
                     value: /^\d{10,15}$/,
-                    message: "Invalid phone number",
+                    message: "Phone number must be 10-15 digits",
                   },
                 })}
               />
@@ -144,6 +151,9 @@ export default function employeeRegistration() {
                       value: 6,
                       message: "Password must be at least 6 characters",
                     },
+                    validate: value =>
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{6,}$/.test(value) ||
+                      "Password must contain uppercase, lowercase, number, and special character."
                   })}
                 />
                 <button
@@ -170,8 +180,7 @@ export default function employeeRegistration() {
                   }`}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
-                    validate: (value) =>
-                      value === password || "Passwords do not match",
+                    validate: value => value === password || "Passwords do not match",
                   })}
                 />
                 <button
