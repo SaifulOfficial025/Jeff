@@ -124,7 +124,10 @@ const Navbar = () => {
             <p className="text-white text-lg lg:text-xl drop-shadow mt-8 w-4/6 mx-auto">
               Upload Design Drawing and Specification, and our AI generates Detailed Scopes of Work, Material Take Offs, Estimates and Schedule of Values.
             </p>
-            <button className="text-white border mt-10 border-[#1471FF] rounded-full bg-[#1471FF] px-10 py-3 font-semibold cursor-pointer">Explore More</button>
+
+            <Link to="/select_role">
+              <button className="text-white border mt-10 border-[#1471FF] rounded-full bg-[#1471FF] px-10 py-3 font-semibold cursor-pointer">Explore More</button>
+            </Link>
           </div>
         </div>
       </section>

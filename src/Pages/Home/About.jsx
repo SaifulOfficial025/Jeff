@@ -1,4 +1,6 @@
 
+import React from "react";
+import { Link } from "react-router-dom";
 const About = () => {
   return (
     <div
@@ -32,9 +34,10 @@ const About = () => {
              
 
           <div className="flex mt-5">
+            <Link to="/select_role">
             <button className="text-white border border-[#1471FF] rounded-full bg-[#1471FF] px-18 py-3">
               Register
-            </button>
+            </button></Link>
           </div>
         </div>
       </div>

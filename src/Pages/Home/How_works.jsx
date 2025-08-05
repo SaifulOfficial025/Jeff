@@ -1,3 +1,5 @@
+import React from 'react'
+import { Link } from 'react-router-dom';
 
 const How_works = () => {
   return (
@@ -69,10 +71,13 @@ const How_works = () => {
       </div>
 
        <div className="text-center">
+        <Link to="/select_role">
           <button className="text-white border border-[#1471FF] rounded-full bg-[#1471FF] px-18 py-3">
               Register
             </button>
+            </Link>
        </div>
+       
       
     </section>
   )

@@ -1,25 +1,24 @@
 
 
 
-import { LogOut } from "lucide-react";
-import { IoSettings, IoCloudUploadOutline } from "react-icons/io5";
-import { LuMessageSquareText } from "react-icons/lu";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
+import { LogOut } from "lucide-react";
+import { IoSettings, IoCloudUploadOutline } from "react-icons/io5";
+import { LuMessageSquareText } from "react-icons/lu";
+import { FaChevronDown } from 'react-icons/fa';
 import NewProjectModal from './NewProjectModal';
 import { setUploadedFiles, loadFromLocalStorage, setCurrentProject } from '../../redux/features/projectSlice';
 import UserNavbar from './UserNavbar';
 import { useGetAllProjectsQuery } from '../../redux/features/baseApi';
 
-import { Link } from 'react-router-dom';
-import { FaChevronDown } from 'react-icons/fa';
-
 export default function ProjectReport() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { uploadedFiles } = useSelector((state) => state.project);
+  const fileInputRef = useRef(null);
 
   // Fetch all projects from API
   const { data: allProjects, isLoading: projectsLoading, error: projectsError } = useGetAllProjectsQuery();
@@ -61,13 +60,10 @@ export default function ProjectReport() {
   const handleRemoveFile = (indexToRemove) => {
     const updatedFiles = uploadedFiles.filter((_, idx) => idx !== indexToRemove);
     dispatch(setUploadedFiles(updatedFiles));
+    setSelectedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
     toast.success('File removed!');
   };
-
-  useEffect(() => {
-    // Load data from localStorage on component mount
-    dispatch(loadFromLocalStorage());
-  }, [dispatch]);
 
   const validateFile = (file) => {
     const allowedTypes = ['application/pdf'];
@@ -90,6 +86,7 @@ export default function ProjectReport() {
     const file = event.target.files[0];
     if (file && validateFile(file)) {
       setSelectedFile(file);
+      if (fileInputRef.current) fileInputRef.current.value = "";
       
       // Convert file to base64 and store in Redux/localStorage
       const reader = new FileReader();
@@ -149,8 +146,6 @@ export default function ProjectReport() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto py-8 px-4">
-
-
         {/* File Upload Area */}
         <div
           className="border-2 border-dashed border-gray-600 rounded-lg p-10 mb-8 text-center"
@@ -169,6 +164,7 @@ export default function ProjectReport() {
                 type="file"
                 className="hidden"
                 onChange={handleFileChange}
+                ref={fileInputRef}
               />
             </p>
             <p className="text-sm text-gray-500">Upload Drawings/Specs (PDF only)</p>
@@ -218,42 +214,36 @@ export default function ProjectReport() {
         <div className="mb-4">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">All projects</h2>
-            {/* <button className="flex items-center gap-1 hover:underline cursor-pointer text-gray-300">
-              <LuMessageSquareText size={20} />
-              Message Us
-            </button> */}
           </div>
 
-         <div className="space-y-2">
-      {projectsLoading ? (
-        <div className="text-center py-4">Loading projects...</div>
-      ) : projectsError ? (
-        <div className="text-red-500 text-center py-4">Error loading projects</div>
-      ) : allProjects && allProjects.length > 0 ? (
-        allProjects.map((project, index) => (
-          <div
-            key={project.id || index}
-            className="flex items-center justify-between bg-[#1E293B] text-white px-4 py-4 rounded-md text-sm"
-          >
-            <div className="flex flex-col">
-              <span className="font-medium">{project.name}</span>
-              <span className="text-gray-400 text-xs">Status: {project.status}</span>
-              <span className="text-gray-400 text-xs">Progress: {project.progress}%</span>
-            </div>
-            <button 
-              onClick={() => handleViewProject(project)}
-              className="text-green-500 hover:underline cursor-pointer"
-            >
-              View Project
-            </button>
+          <div className="space-y-2">
+            {projectsLoading ? (
+              <div className="text-center py-4">Loading projects...</div>
+            ) : projectsError ? (
+              <div className="text-red-500 text-center py-4">Error loading projects</div>
+            ) : allProjects && allProjects.length > 0 ? (
+              allProjects.map((project, index) => (
+                <div
+                  key={project.id || index}
+                  className="flex items-center justify-between bg-[#1E293B] text-white px-4 py-4 rounded-md text-sm"
+                >
+                  <div className="flex flex-col">
+                    <span className="font-medium">{project.name}</span>
+                    <span className="text-gray-400 text-xs">Status: {project.status}</span>
+                    <span className="text-gray-400 text-xs">Progress: {project.progress}%</span>
+                  </div>
+                  <button 
+                    onClick={() => handleViewProject(project)}
+                    className="text-green-500 hover:underline cursor-pointer"
+                  >
+                    View Project
+                  </button>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-4 text-gray-400">No projects found</div>
+            )}
           </div>
-        ))
-      ) : (
-        <div className="text-center py-4 text-gray-400">No projects found</div>
-      )}
-    </div>
-
-
         </div>
 
         {/* New Project Modal */}
