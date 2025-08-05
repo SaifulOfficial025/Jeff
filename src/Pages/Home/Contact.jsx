@@ -1,12 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 const Contact = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset()
+  const onSubmit = async (data) => {
+    setIsSubmitting(true);
+    
+    try {
+      const payload = {
+        full_name: data.fullName,
+        email: data.email,
+        construction_type: data.constructionType,
+        message: data.message
+      };
+
+      const response = await fetch('https://twin-friday-wallpapers-releases.trycloudflare.com/api/users/contact-form/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        toast.success('Your message has been sent successfully!');
+        reset();
+      } else {
+        toast.error('Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast.error('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -76,9 +106,16 @@ const Contact = () => {
 
           {/* Submit Button */}
           <div className="flex justify-center">
-        
-              <button className="text-white text-[20px] cursor-pointer border border-[#1471FF] rounded-full bg-[#1471FF] px-18 py-3">
-              Send
+            <button 
+              type="submit"
+              disabled={isSubmitting}
+              className={`text-white text-[20px] cursor-pointer border border-[#1471FF] rounded-full px-18 py-3 transition-all duration-300 ${
+                isSubmitting 
+                  ? 'bg-gray-600 border-gray-600 cursor-not-allowed opacity-70' 
+                  : 'bg-[#1471FF] hover:bg-blue-600 hover:border-blue-600'
+              }`}
+            >
+              {isSubmitting ? 'Sending...' : 'Send'}
             </button>
           </div>
         </form>
