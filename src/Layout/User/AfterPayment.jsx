@@ -203,7 +203,7 @@ const AfterPayment = () => {
   const getProcessedFiles = () => {
     const files = [];
     // Use backend base URL for relative paths
-    const backendBaseUrl = 'https://e2a31fa8fde8.ngrok-free.app'; // Use your actual backend URL
+    const backendBaseUrl = 'https://twin-friday-wallpapers-releases.trycloudflare.com'; // Use your actual backend URL
     const makeAbsolute = (url) => {
       if (!url) return url;
       if (url.startsWith('http')) return url;

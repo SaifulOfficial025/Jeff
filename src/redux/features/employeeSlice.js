@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://e2a31fa8fde8.ngrok-free.app';
+const baseUrl =  'https://twin-friday-wallpapers-releases.trycloudflare.com';
 
 export const fetchEmployeeStats = createAsyncThunk(
   'employee/fetchStats',

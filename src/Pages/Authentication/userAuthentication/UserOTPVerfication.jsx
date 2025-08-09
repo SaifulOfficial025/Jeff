@@ -68,7 +68,7 @@ const UserOTPVerfication = () => {
       return;
     }
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "https://e2a31fa8fde8.ngrok-free.app"}/api/users/reset-request-activate/`, {
+      const res = await fetch("https://twin-friday-wallpapers-releases.trycloudflare.com/api/users/reset-request-activate/", {
         method: "POST",
         headers: { "Content-Type": "application/json", 'ngrok-skip-browser-warning': 'true' },
         body: JSON.stringify({ email, otp: otpCode }),
