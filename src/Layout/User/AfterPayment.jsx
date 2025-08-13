@@ -41,7 +41,7 @@ const AfterPayment = () => {
     const pollAiStatus = async (projectId, taskId) => {
       try {
         const response = await fetch(
-          `https://twin-friday-wallpapers-releases.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
+          `https://remaining-indication-saints-famous.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
@@ -203,7 +203,7 @@ const AfterPayment = () => {
   const getProcessedFiles = () => {
     const files = [];
     // Use backend base URL for relative paths
-    const backendBaseUrl = 'https://twin-friday-wallpapers-releases.trycloudflare.com'; // Use your actual backend URL
+    const backendBaseUrl = 'https://remaining-indication-saints-famous.trycloudflare.com'; // Use your actual backend URL
     const makeAbsolute = (url) => {
       if (!url) return url;
       if (url.startsWith('http')) return url;

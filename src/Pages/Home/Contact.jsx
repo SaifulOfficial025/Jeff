@@ -17,7 +17,7 @@ const Contact = () => {
         message: data.message
       };
 
-      const response = await fetch('https://twin-friday-wallpapers-releases.trycloudflare.com/api/users/contact-form/', {
+      const response = await fetch('https://remaining-indication-saints-famous.trycloudflare.com/api/users/contact-form/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

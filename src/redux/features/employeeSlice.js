@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl =  'https://twin-friday-wallpapers-releases.trycloudflare.com';
+const baseUrl =  'https://remaining-indication-saints-famous.trycloudflare.com';
 
 export const fetchEmployeeStats = createAsyncThunk(
   'employee/fetchStats',
