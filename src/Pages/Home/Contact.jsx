@@ -17,7 +17,7 @@ const Contact = () => {
         message: data.message
       };
 
-      const response = await fetch('https://adding-ct-guinea-certification.trycloudflare.com/api/users/contact-form/', {
+      const response = await fetch('https://timber-papua-rc-announced.trycloudflare.com/api/users/contact-form/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

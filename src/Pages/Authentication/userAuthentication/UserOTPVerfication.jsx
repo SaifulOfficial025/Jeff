@@ -68,7 +68,7 @@ const UserOTPVerfication = () => {
       return;
     }
     try {
-      const res = await fetch("https://adding-ct-guinea-certification.trycloudflare.com/api/users/reset-request-activate/", {
+      const res = await fetch("https://timber-papua-rc-announced.trycloudflare.com/api/users/reset-request-activate/", {
         method: "POST",
         headers: { "Content-Type": "application/json", 'ngrok-skip-browser-warning': 'true' },
         body: JSON.stringify({ email, otp: otpCode }),
