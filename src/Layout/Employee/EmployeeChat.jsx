@@ -70,7 +70,7 @@ export default function EmployeeChat() {
     if (!selectedChatRoomId) return;
     const token = localStorage.getItem("access_token");
     if (!token) return;
-    const wsUrl = `wss://trick-offered-certificate-wy.trycloudflare.com/ws/chat/${selectedChatRoomId}/?token=${token}`;
+    const wsUrl = `wss:/https://adding-ct-guinea-certification.trycloudflare.com/ws/chat/${selectedChatRoomId}/?token=${token}`;
     const ws = new window.WebSocket(wsUrl);
     wsRef.current = ws;
 

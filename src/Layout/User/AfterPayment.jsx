@@ -41,7 +41,7 @@ const AfterPayment = () => {
     const pollAiStatus = async (projectId, taskId) => {
       try {
         const response = await fetch(
-          `https://remaining-indication-saints-famous.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
+          `https://adding-ct-guinea-certification.trycloudflare.com/api/projects/${projectId}/ai_analysis_status/?task_id=${taskId}`,
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
