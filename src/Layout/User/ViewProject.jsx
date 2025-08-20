@@ -253,16 +253,40 @@ const ViewProject = () => {
         </td>
         <td className="text-right">
           {row.downloadLink ? (
-            <a
-              href={row.downloadLink}
+            <button
               className="text-blue-400 hover:underline flex items-center justify-end gap-2"
-              download
-              target="_blank"
-              rel="noopener noreferrer"
+              type="button"
+              onClick={async () => {
+                if (!row.downloadLink) return;
+                const fileUrl = row.downloadLink;
+                const fileName = row.name || 'downloaded_file';
+                const isCsv = fileName.toLowerCase().endsWith('.csv');
+                const isPdf = fileName.toLowerCase().endsWith('.pdf');
+                try {
+                  const response = await fetch(fileUrl, { credentials: 'include' });
+                  if (!response.ok) throw new Error('File not found');
+                  const blob = await response.blob();
+                  const mimeType = isCsv ? 'text/csv' : isPdf ? 'application/pdf' : blob.type;
+                  const safeBlob = new Blob([blob], { type: mimeType });
+                  const url = window.URL.createObjectURL(safeBlob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = fileName;
+                  document.body.appendChild(a);
+                  a.click();
+                  setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                  }, 100);
+                } catch (err) {
+                  toast.error('Failed to download file.');
+                  console.error(err);
+                }
+              }}
             >
               Download
               <FaDownload className="h-5 w-5" />
-            </a>
+            </button>
           ) : (
             <span className="text-gray-500 flex items-center justify-end gap-2">
               Not available
