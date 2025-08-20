@@ -258,7 +258,11 @@ const ViewProject = () => {
               type="button"
               onClick={async () => {
                 if (!row.downloadLink) return;
-                const fileUrl = row.downloadLink;
+                let fileUrl = row.downloadLink;
+                // Fix mixed-content: convert http:// to https://
+                if (fileUrl.startsWith('http://')) {
+                  fileUrl = 'https://' + fileUrl.substring(7);
+                }
                 const fileName = row.name || 'downloaded_file';
                 const isCsv = fileName.toLowerCase().endsWith('.csv');
                 const isPdf = fileName.toLowerCase().endsWith('.pdf');
