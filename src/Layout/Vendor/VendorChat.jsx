@@ -70,7 +70,7 @@ export default function VendorChat() {
     if (!selectedChatRoomId) return;
     const token = localStorage.getItem("access_token");
     if (!token) return;
-    const wsUrl = `wss://https://cartoons-editorials-broke-ones.trycloudflare.com/ws/chat/${selectedChatRoomId}/?token=${token}`;
+    const wsUrl = `wss:/https://indicates-artists-reflect-messages.trycloudflare.com/ws/chat/${selectedChatRoomId}/?token=${token}`;
     const ws = new window.WebSocket(wsUrl);
     wsRef.current = ws;
 

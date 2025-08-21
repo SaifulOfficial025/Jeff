@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const baseUrl =  'https://cartoons-editorials-broke-ones.trycloudflare.com';
+const baseUrl =  'https://indicates-artists-reflect-messages.trycloudflare.com';
 
 export const fetchEmployeeStats = createAsyncThunk(
   'employee/fetchStats',

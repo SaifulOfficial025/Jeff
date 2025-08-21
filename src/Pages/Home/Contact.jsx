@@ -17,7 +17,7 @@ const Contact = () => {
         message: data.message
       };
 
-      const response = await fetch('https://phrase-looksmart-restored-canyon.trycloudflare.com/api/users/contact-form/', {
+      const response = await fetch('https://indicates-artists-reflect-messages.trycloudflare.com/api/users/contact-form/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
