@@ -68,7 +68,7 @@ const UserOTPVerfication = () => {
       return;
     }
     try {
-      const res = await fetch("https://indicates-artists-reflect-messages.trycloudflare.com/api/users/reset-request-activate/", {
+      const res = await fetch("https://dan-explaining-usgs-settled.trycloudflare.com/api/users/reset-request-activate/", {
         method: "POST",
         headers: { "Content-Type": "application/json", 'ngrok-skip-browser-warning': 'true' },
         body: JSON.stringify({ email, otp: otpCode }),

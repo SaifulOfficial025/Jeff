@@ -18,7 +18,7 @@ const EmailVerification = () => {
   const onSubmit = async (data) => {
     setApiError("");
     try {
-      const res = await fetch(`${ "https://indicates-artists-reflect-messages.trycloudflare.com"}/api/users/forgot-password/`, {
+      const res = await fetch(`${ "https://dan-explaining-usgs-settled.trycloudflare.com"}/api/users/forgot-password/`, {
         method: "POST",
         headers: { "Content-Type": "application/json", 'ngrok-skip-browser-warning': 'true'},
         body: JSON.stringify({ email: data.email }),
