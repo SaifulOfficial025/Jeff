@@ -17,7 +17,7 @@ const Contact = () => {
         message: data.message
       };
 
-      const response = await fetch('https://dan-explaining-usgs-settled.trycloudflare.com/api/users/contact-form/', {
+      const response = await fetch('https://commit-orientation-northeast-emacs.trycloudflare.com/api/users/contact-form/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
